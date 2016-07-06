@@ -1,0 +1,12 @@
+<div>
+
+  <h1> Welcome, Primer </h1>
+  <h3>Enter the state where you want to work</h3>
+  <input type="text" ng-model = 'searchIn' value="" placeholder="state">
+  <button ng-click='glassdoorSearch();' name="button"> Search </button>
+  <div ng-repeat='result in allglassdoorJobs'>
+          <!-- <img ng-src='{{result.state}}' /> -->
+          <p> State: {{ result.name }} Number of Jobs: {{ result.numJobs }}, longitude: {{ result.longitude }}, latitude: {{result.latitude }}</p>
+        </div>
+  <button type="button" name="button"> <a href= "/logOut" > Log Out </a></button>
+</div>
