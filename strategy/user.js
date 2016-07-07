@@ -3,7 +3,6 @@ var LocalStrategy = require( 'passport-local' ).Strategy;
 var pg = require( 'pg' );
 var Auth0Strategy = require('passport-auth0');
 
-
 var strategy = new Auth0Strategy({
     domain:       'primetime.auth0.com',
     clientID:     'tfynhUQ3sH7fUv9UCDd5leqe4MyWkfBM',

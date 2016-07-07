@@ -1,12 +1,69 @@
-<div>
-
+<div ng-controller="successController">
   <h1> Welcome, Primer </h1>
-  <h3>Enter the state where you want to work</h3>
-  <input type="text" ng-model = 'searchIn' value="" placeholder="state">
-  <button ng-click='glassdoorSearch();' name="button"> Search </button>
-  <div ng-repeat='result in allglassdoorJobs'>
+  <h3>Please enter your top three priorities in order</h3>
+  <form class="" action="index.html" method="post">
+    <table>
+      <!-- <form name="inputForm"> -->
+        <label for="userPreferences">Please enter your top three priorities in order!</label>
+      <!-- </form> -->
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Industry</th>
+            <th>Overall Rating</th>
+            <th>Culture and Values Rating</th>
+            <th>Senior Leadership Rating </th>
+            <th>Compensation and Benefits Rating</th>
+            <th>Career Opportunities Rating</th>
+            <th>Work Life Balance Rating</th>
+            <th>Recommend to Friend Rating</th>
+            <th>Featured Review</th>
+          </tr>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+          <th><input type="radio" name="first" value="1"> 1 </th>
+
+          <tr>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+            <th><input type="radio" name="second" value="2"> 2 </th>
+          </tr>
+          <tr>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th><input type="radio" name="third" value="3"> 3 </th>
+          </tr>
+
+
+    </table>
+  <!-- </form> -->
+
+  <!-- <div ng-repeat='result in allglassdoorJobs'> -->
           <!-- <img ng-src='{{result.state}}' /> -->
-          <p> State: {{ result.name }} Number of Jobs: {{ result.numJobs }}, longitude: {{ result.longitude }}, latitude: {{result.latitude }}</p>
-        </div>
+          <!-- <p> State: {{ result.name }} Number of Jobs: {{ result.numJobs }}, longitude: {{ result.longitude }}, latitude: {{result.latitude }}</p> -->
+        <!-- </div> -->
+
+  <button type="button" ng-click = "glassdoorSearch();" name="button">  Search </button>
   <button type="button" name="button"> <a href= "/logOut" > Log Out </a></button>
 </div>

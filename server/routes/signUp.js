@@ -16,22 +16,22 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
   console.log('we hit the register route');
-  console.log('req.body.username = ', req.body.username);
+  console.log('req.body.email = ', req.body.email);
   console.log('req.body.password = ', req.body.password);
 
   //test the db connection
   pg.connect(userString, function (err, client, done) {
 
     var userSaved = {
-      username: req.body.username,
+      email: req.body.email,
       password: encryptionVariable.encryptPassword(req.body.password),
       zip: req.body.zip,
       cohort: req.body.cohort
     };
 
     //client.query takes the query, params, and optional callback
-    client.query("INSERT INTO primers (username, password, zip, cohort) VALUES ($1, $2, $3, $4) RETURNING id",
-      [userSaved.username, userSaved.password, userSaved.zip, userSaved.cohort],
+    client.query("INSERT INTO primers (email, password, zip, cohort) VALUES ($1, $2, $3, $4) RETURNING id",
+      [userSaved.email, userSaved.password, userSaved.zip, userSaved.cohort],
         function(err, result) {
 
           done();
@@ -40,16 +40,6 @@ router.post('/', function(req, res) {
             res.sendStatus(500);
           } else{
             console.log('id of user = ', result.rows[0].id);
-
-            // router.post('/',
-                        // );
-
-
-            //
-            // router.get('/', function(req, res) {
-            //   res.sendFile(path.resolve('public/views/success.html'));
-            // });
-            // res.redirect('/success.html');
           }
     }); //end of client query
   }); //end of pg connect
