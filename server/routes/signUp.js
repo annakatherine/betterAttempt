@@ -53,10 +53,10 @@ router.post('/', function(req, res) {
           }
     }); //end of client query
   }); //end of pg connect
-  passport.authenticate('local', { successRedirect: '/views/success.html',
-                                   failureRedirect: '/views/failure.html',
+  passport.authenticate('local', { successRedirect: '/views/pages/success.html',
+                                   failureRedirect: '/views/pages/failure.html',
                                 });
-                                res.sendFile(path.resolve('public/views/success.html'));
+                                res.sendFile(path.resolve('public/views/pages/success.html'));
 
 }); //end of post
 

@@ -24,6 +24,10 @@ console.log( 'under myApp.config' );
      templateUrl: '/views/pages/home.html',
      controller: "homeController"
    })
+   .when('/logIn', {
+     templateUrl: '/views/pages/logIn.html',
+     controller: "logInController"
+   })
    .otherwise({
      redirectTo: '/home'
    });
