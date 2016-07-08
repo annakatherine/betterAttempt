@@ -8,6 +8,8 @@ var session=require('express-session');
 var bodyParser = require('body-parser');
 var strategy = require('strategy');
 var cookieParser = require('cookie-parser');
+
+
 app.listen( 8080, 'localhost', function( req, res ){
   console.log( 'And the rest is rust and stardust' );
 });
@@ -35,10 +37,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /// call the routes!
-app.use('/signUp', signUp);
+// app.use('/signUp', signUp);
 app.use('/*', index);
-// app.use('/success', success);
-// app.use('/failure', failure);
+app.use('/success', success);
+app.use('/failure', failure);
 
 //passport session specifics
 app.use(session({
@@ -55,7 +57,7 @@ app.get('/signUp',
     if (!req.user) {
       throw new Error('user null');
     }
-    res.redirect("/signUp");
+    res.redirect("/success");
   });
   app.get('/signUp', function (req, res) {
   res.render('user', {

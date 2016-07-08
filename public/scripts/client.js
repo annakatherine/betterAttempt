@@ -4,10 +4,10 @@ var myApp = angular.module( 'myApp', ['ngRoute']);
 myApp.config(['$routeProvider', function ($routeProvider) {
 console.log( 'under myApp.config' );
  $routeProvider
-   .when('/signUp', {
-     templateUrl: '/views/pages/signUp.html',
-     controller: "signUpController"
-   })
+  //  .when('/signUp', {
+  //    templateUrl: '/views/pages/signUp.html',
+  //    controller: "signUpController"
+  //  })
    .when('/index', {
      templateUrl: '/views/pages/index.html',
      controller: "indexController"
@@ -32,7 +32,4 @@ console.log( 'under myApp.config' );
      redirectTo: '/home'
    });
  }]);//end of myapp confug
- myApp.controller( 'indexController', ['$scope', '$http', function( $scope, $http ){
-   console.log( 'loaded indexController' );
-
- }]);//end of index controller
+ 
