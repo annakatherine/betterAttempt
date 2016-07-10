@@ -1,69 +1,108 @@
-<div ng-controller="successController">
+<!-- <div ng-controller="successController"> -->
   <h1> Welcome, Primer </h1>
   <h3>Please enter your top three priorities in order</h3>
-  <form class="" action="index.html" method="post">
-    <table>
       <!-- <form name="inputForm"> -->
-        <label for="userPreferences">Please enter your top three priorities in order!</label>
-      <!-- </form> -->
+        <label for="userPreferences"></label>
+      <form>
+        <div class="form-group">
         <table>
           <tr>
-            <th>Name</th>
-            <th>Industry</th>
             <th>Overall Rating</th>
             <th>Culture and Values Rating</th>
             <th>Senior Leadership Rating </th>
             <th>Compensation and Benefits Rating</th>
-            <th>Career Opportunities Rating</th>
             <th>Work Life Balance Rating</th>
+            <th>Career Opportunities Rating</th>
             <th>Recommend to Friend Rating</th>
-            <th>Featured Review</th>
-          </tr>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-          <th><input type="radio" name="first" value="1"> 1 </th>
-
-          <tr>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
-            <th><input type="radio" name="second" value="2"> 2 </th>
           </tr>
           <tr>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
-            <th><input type="radio" name="third" value="3"> 3 </th>
+            <th>
+              <select name="overallRating" id="overallRating" ng-model="overallRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
+            <th>
+              <select name="cultureAndValuesRating" id="cultureAndValuesRating" ng-model="cultureAndValuesRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
+            <th>
+              <select name="seniorLeadershipRating" id="seniorLeadershipRating" ng-model="seniorLeadershipRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
+            <th>
+              <select name="compensationAndBenefitsRating" id="compensationAndBenefitsRating" ng-model="compensationAndBenefitsRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
+            <th>
+              <select name="workLifeBalanceRating" id="workLifeBalanceRating" ng-model="workLifeBalanceRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
+            <th>
+              <select name="careerOpportunitiesRating" id="careerOpportunitiesRating" ng-model="careerOpportunitiesRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
+            <th>
+              <select name="recommendToFriendRating" id="recommendToFriendRating" ng-model="recommendToFriendRatingModel">
+                <option value="">---n/a---</option> <!-- not selected / blank option -->
+                <option value="1">First Priority</option>
+                <option value="2">Second Priority</option>
+                <option value="3">Third Priority</option>
+              </select>
+            </th>
           </tr>
+          <tr> <div ng-repeat="results in resultsArray">
+            <th>
+              {{ resultsArray[0].overall }}
+            </th>
+            <th>
+              {{ resultsArray[0].cultureAndValuesRating }}
+              {{ allglassdoorJobs[0].Name }}
+            </th>
+            <th>
+              {{ resultsArray[0].seniorLeadershipRating }}
+            </th>
+            <th>
+              {{ resultsArray[0].compensationAndBenefitsRating }}
+            </th>
+            <th>
+             {{ resultsArray[0].workLifeBalanceRating }}
+            </th>
+            <th>
+              {{ resultsArray[0].careerOpportunitiesRating }}
+            </th>
+            <th>
+              {{ resultsArray[0].recommendToFriendRating }}
+            </th>
+          </tr>
+        </div>
+        <th>
+          <button type="button" ng-click="glassdoorSearch();" name="button">  Search </button>
+        </th>
 
-
-    </table>
-  <!-- </form> -->
-
-  <!-- <div ng-repeat='result in allglassdoorJobs'> -->
-          <!-- <img ng-src='{{result.state}}' /> -->
-          <!-- <p> State: {{ result.name }} Number of Jobs: {{ result.numJobs }}, longitude: {{ result.longitude }}, latitude: {{result.latitude }}</p> -->
-        <!-- </div> -->
-
-  <button type="button" ng-click="glassdoorSearch();" name="button">  Search </button>
-  <button type="button" name="button"> <a href= "/logOut" > Log Out </a></button>
-</div>
+    </div>
+  </form>
+  <!-- <button type="button" name="button"> <a href= "/logOut" > Log Out </a></button> -->
+<!-- </div> -->

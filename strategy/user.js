@@ -1,58 +1,85 @@
-var passport = require( 'passport');
-var LocalStrategy = require( 'passport-local' ).Strategy;
-var pg = require( 'pg' );
-var Auth0Strategy = require('passport-auth0');
+/*
+CREATE TABLE users (
+ id SERIAL PRIMARY KEY,
+ username VARCHAR(100) NOT NULL UNIQUE,
+ password VARCHAR(120) NOT NULL
+);
+*/
 
-var strategy = new Auth0Strategy({
-    domain:       'primetime.auth0.com',
-    clientID:     'tfynhUQ3sH7fUv9UCDd5leqe4MyWkfBM',
-    clientSecret: 'nr25ytvQxkl1QRdcZkGNsJeKHSN-R-0wXhDwBnx2WFCbz5L-cwXLJOUoB9jziOJZ',
-    callbackURL:  '/callback'
-  }, function(accessToken, refreshToken, extraParams, profile, done) {
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    return done(null, profile);
+var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
+var encryptLib = require('../server/modules/encrypt');
+var connection = require('../server/modules/connection');
+var pg = require('pg');
+// var connectionString = 'postgres://localhost:5432/primerDB';
+
+passport.serializeUser(function(user, done) {
+  console.log( 'inside serializeUser');
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+// SQL query
+  console.log('called deserializeUser');
+  pg.connect(connection, function (err, client) {
+
+    var user = {};
+    console.log('called deserializeUser - pg');
+      var query = client.query("SELECT * FROM primers WHERE id = $1", [id]);
+
+      query.on('row', function (row) {
+        console.log('User row', row);
+        user = row;
+        done(null, user);
+      });
+
+      // After all data is returned, close connection and return results
+      query.on('end', function () {
+          client.end();
+      });
+
+      // Handle Errors
+      if (err) {
+          console.log(err);
+      }
   });
+});
 
-  passport.use(strategy);
+// Does actual work of logging in
+passport.use('local', new localStrategy({
+    passReqToCallback: true,
+    usernameField: 'username'
+    }, function(req, username, password, done){
+	    pg.connect(connection, function (err, client) {
+	    	console.log('called local - pg');
+	    	var user = {};
+        console.log( 'user: ', user );
+        var banana = client.query("SELECT * FROM primers WHERE username = $1", [username]);
+        console.log( 'after query' );
 
-///require modules
-var encrypt=require('../server/modules/encrypt');
-var connection= require('../server/modules/connection');
-var conStringUsers=require('../server/modules/userdatabase');
+        banana.on('row', function (row) {
+        	console.log('User obj', row);
+        	user = row;
 
-//serialize user
-// passport.serializeUser(function(user, done) {
-//     done(null, user.id);
-// });
-//
-// passport.deserializeUser(function(id, passDone) {
-//   console.log('called deserializeUser');
-//
-//   pg.connect(conStringUsers, function(err, client, pgDone) {
-    //connection error
-    // if(err){
-    //   console.log(err);
-    //   res.sendStatus(500);
-    // }
-    //
-    // client.query("SELECT * FROM primers WHERE id = $1", [id], function(err, results) {
-    //   pgDone();
-    //
-    //   if(results.rows.length >= 1){
-    //     console.log(results.rows[0]);
-    //     return passDone(null, results.rows[0]);
-    //   }
-    //
-      // handle errors
-//       if(err){
-//         console.log(err);
-//       }
-//
-//     });
-//   });
-// });
-module.exports = strategy;
-
+          // Hash and compare
+          if(encryptLib.comparePassword(password, user.password)) {
+            // all good!
+            console.log('matched');
+            done(null, user);
+          } else {
+            console.log('nope');
+            done(null, false, {message: 'Incorrect credentials.'});
+          }
+        });
+        // After all data is returned, close connection and return results
+        banana.on('end', function () {
+            client.end();
+        });
+        // Handle Errors
+        if (err) {
+            console.log(err);
+        }
+	    });
+    }
+));
 module.exports = passport;

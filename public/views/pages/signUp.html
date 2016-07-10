@@ -1,32 +1,22 @@
-<!-- <body>
-  <h1>Sign up here</h1>
-  <div class="signUp">
-      <form action="/success" id="signUp" method="post">
-          <div>
-            <label for="email">  email </label>
-            <input type="text" name="email" id="email">
-          </div>
-          <div>
-            <label for="password"> Password: </label>
-            <input type="password" name="password" id="password">
-          </div>
-          <div>
-            <label for="zip code"> Zip Code: </label>
-            <input type="zip" name="zip" id="zip">
-          </div>
-          <div>
-            <label for="Cohort"> Cohort: </label>
-            <input type="cohort" name="cohort" id="cohort">
-          </div>
-          <div>
-            <input type="submit" value="Sign Me Up" <a href="/success">
-          </div>
-          <div id='logIn'>
-              <button type="button" name="button"> <a href= "/logIn"> Log In </a></button>
-          </div>
-          <div id='logOut'>
-              <button type="button" name="button"> <a href= "/logOut" > Log Out </a></button>
-          </div>
-        </form>
-      </div>
-</body> -->
+<div>
+<form ng-submit="signUpNewUser()">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" ng-model="user.username" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" ng-model="user.password" />
+    </div>
+    <div>
+        <label for="zip">Zip:</label>
+        <input type="text" ng-model="user.zip" />
+    </div>
+    <div>
+        <label for="cohort">Password:</label>
+        <input type="text" ng-model="user.cohort" />
+    </div>
+    <input class="btn btn-default" type="submit" name="submit" value="Sign Up" />
+    <!-- <a href="#logIn">Cancel</a> -->
+  </form>
+</div>

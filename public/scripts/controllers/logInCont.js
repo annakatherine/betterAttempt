@@ -1,20 +1,46 @@
-myApp.controller( 'logInController', ['$scope', '$http', function( $scope, $http ){
-  console.log( 'loaded LogInController' );
-
-  var auth0 = new Auth0({
-    domain:         'primetime.auth0.com',
-    clientID:       'tfynhUQ3sH7fUv9UCDd5leqe4MyWkfBM',
-    callbackURL:    ''
-  });
-
-  $scope.slackLogIn = function() {
-      auth0.signin({popup: true, connection: 'https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=3545121647.57738599220'},
-                  function(err, client_id, scope, redirect_uri, state, team) {
-
-                        // store the profile and id_token in a cookie or local storage
-                          $.cookie('profile', profile);
-                          $.cookie('id_token', id_token);
-
-                  });
+myApp.controller('logInController', ['$scope', '$http', '$window',
+'$location', function($scope, $http, $window, $location) {
+    $scope.user = {
+      username: '',
+      password: '',
+      zip: '',
+      cohort: '',
     };
-}]);//end of index controller
+    $scope.message = '';
+        $scope.login = function() {
+          console.log( 'login clicked' );
+          if($scope.user.username === '' || $scope.user.password === '') {
+            $scope.message = "Enter your username and password!";
+          } else {
+            console.log('sending to server...', $scope.user);
+            $http.post('/', $scope.user).then(function(response) {
+              if(response.data.username) {
+                console.log('success: ', response.data);
+                // location works with SPA (ng-route)
+                $location.path('/success');
+              } else {
+                console.log('failure: ', response);
+                $scope.message = "Wrong!!";
+              }
+            });
+          }
+        };
+
+        $scope.signUpNewUser = function() {
+          if($scope.user.username === '' || $scope.user.password === '') {
+            $scope.message = "Choose a username and password!";
+          } else {
+            console.log('sending to server...', $scope.user);
+            $http.post('/signUp', $scope.user).then(function(response) {
+              console.log('success');
+              $location.path('/success');
+            },
+            function(response) {
+              console.log('error');
+              $scope.message = "Please try again.";
+            });
+          }
+        };
+
+
+}]);//end of login controller

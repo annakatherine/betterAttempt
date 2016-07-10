@@ -1,3 +1,9 @@
-var conString = 'postgres://localhost:5432/jobsDB';
+var connectionString = 'postgres://localhost:5432/primerDB';
 
-module.exports = conString;
+if(process.env.DATABASE_URL !== undefined) {
+    connectionString = process.env.DATABASE_URL + 'ssl';
+} else {
+    connectionString = 'postgres://localhost:5432/primerDB';
+}
+
+module.exports = connectionString;

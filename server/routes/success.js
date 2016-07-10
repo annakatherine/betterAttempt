@@ -7,6 +7,7 @@ var userString = require('../modules/userdatabase');
 var router = express.Router();
 
 router.get('/', function(req, res) {
+  console.log( 'inside the success.js');
   res.sendFile(path.resolve('public/views/success.html'));
 });
 
