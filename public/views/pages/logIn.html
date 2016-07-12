@@ -1,15 +1,28 @@
 <body>
-  <h1>I am the LogIn html page </h1>
+  <h1>Please log in: </h1>
   <form ng-submit="login()">
-      <div>
+    <div class="form-group">
+      <tr>
+        <th>
           <label for="username">Username:</label>
+        </th>
+        <th>
           <input type="text" ng-model="user.username" />
-      </div>
-      <div>
+        </th>
+      </tr>
+      <tr>
+        <th>
           <label for="password">Password:</label>
+        </th>
+        <th>
           <input type="password" ng-model="user.password" />
-      </div>
-      <input class="btn btn-default" type="submit" name="submit" value="Log In" />
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <button type="button" name="button" ng-click="logIn()">Log In</button>
+        </th>
+      </tr>
       <!-- <a href="#logIn">Cancel</a> -->
     </form>
     </body>

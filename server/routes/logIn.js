@@ -1,23 +1,25 @@
 var express = require('express');
-var path = require('path');
-var pg = require('pg');
-var passport = require('passport');
-var Auth0Strategy = require('passport-auth0');
-
 var router = express.Router();
+var passport = require('passport');
+// var passport=require('strategy/user.js');
+
+var path = require('path');
+
+function annaGoesCrazy(){
+  console.log( 'inside the fucking login.js' );
+}
+// Handles login form POST from index.html
 router.post('/',
+    passport.authenticate('local', {
+        successRedirect: '/router',
+        failureRedirect: '/'
+    })
+);
 
-  passport.authenticate('local', { successRedirect: '/views/pages/success.html',
-                                 failureRedirect: '/views/pages/failure.html',
-
-                              })
-                            );
-
-router.get('/', function(req, res){
-  console.log( 'inside login.js' );
-
-    res.sendFile(path.resolve('public/views/pages/success.html'));
+// Handle index file separately
+// Also catches any other request not explicitly matched elsewhere
+router.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../public/views/index.html'));
 });
- //end of post
 
 module.exports = router;

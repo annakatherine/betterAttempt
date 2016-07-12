@@ -8,12 +8,8 @@ var encryptLib = require('../modules/encrypt');
 var connection = require('../modules/connection');
 var connectionString = 'postgres://localhost:5432/primerDB';
 var router = express.Router();
-
-
-console.log( 'signUp.js is up and at em' );
-
 router.post('/', function(req, res, next) {
-  console.log( 'inside router.post' );
+  console.log( 'signUp.js is up and at em' );
   // console.log('req.body.username = ', req.body.username);
   // console.log('req.body.password = ', req.body.password);
   var userSaved = {
@@ -35,9 +31,8 @@ router.post('/', function(req, res, next) {
             next(err);
           } else {
             res.redirect('/');
-          }
-        });
-  });
-
-});
+          } //end of else
+        });//end of client.query
+      });//end of pg.connect
+    });//end of router.post
 module.exports = router;

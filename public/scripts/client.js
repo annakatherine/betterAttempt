@@ -1,7 +1,7 @@
 console.log( 'bravo' );
-var myApp = angular.module( 'myApp', ['ngRoute']);
+var myApp = angular.module( 'myApp', ['ngRoute', 'ui.bootstrap'] );
 /// Routes ///
-myApp.config(['$routeProvider', function ($routeProvider) {
+myApp.config(['$routeProvider',  function ($routeProvider ) {
 console.log( 'under myApp.config' );
  $routeProvider
    .when('/index', {

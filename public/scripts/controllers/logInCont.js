@@ -7,13 +7,13 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
       cohort: '',
     };
     $scope.message = '';
-        $scope.login = function() {
+        $scope.logIn = function() {
           console.log( 'login clicked' );
           if($scope.user.username === '' || $scope.user.password === '') {
             $scope.message = "Enter your username and password!";
           } else {
             console.log('sending to server...', $scope.user);
-            $http.post('/', $scope.user).then(function(response) {
+            $http.post('/logIn', $scope.user).then(function(response) {
               if(response.data.username) {
                 console.log('success: ', response.data);
                 // location works with SPA (ng-route)
@@ -44,3 +44,10 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
 
 
 }]);//end of login controller
+//
+// angular.module('app')
+// .controller('LoginCtrl', ['$scope', loginCtrlFunc]);
+//
+// function loginCtrlFunc($scope){
+//
+// }

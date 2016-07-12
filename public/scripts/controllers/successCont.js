@@ -2,44 +2,38 @@
 myApp.controller( 'successController', ['$scope', '$http', function( $scope, $http ){
   console.log( 'loaded successController' );
 
-$scope.glassdoorSearch = function(){
+  $scope.submitReview = function( ){
+    console.log( 'submitReview clicked' );
 
-// declare empty array to hold API search results
-  $scope.allglassdoorJobs = [];
+    var reviewObject = {
+      name: $scope.companyNameModel,
+      salary: $scope.salaryModel,
+      leadership: $scope.leadershipModel,
+      review: $scope.reviewModel
+    };
 
-//------API results get made into an objec----------------------------------------
+    alert( reviewObject.name + ' ' + reviewObject.salary + ' ' +reviewObject.leadership + ' ' + reviewObject.review );
 
-  console.log( 'hit glassdoorSearch' );
-    var glassdoorAPI = 'http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=75608&t.k=jtQTmCQF0QA&action=employers&q=technology&l=minnesota';
     $http({
-          method: 'GET',
-          url: glassdoorAPI,
-          dataType: 'jsonp',
-          headers: { 'Content-Type':'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8081' }
-        }).then( function( response ){
-          // log the response from the http call
-          console.log( 'retrieved info for ', response.data);
-          console.log( 'log', response.data.response.employers[0].name);
-          var jobObject={
-            Name: response.data.response.employers[0].name,
-            industry: response.data.response.employers[0].industry,
-            overallRating: response.data.response.employers[0].overallRating,
-            cultureAndValuesRating: response.data.response.employers[0].cultureAndValuesRating,
-            seniorLeadershipRating: response.data.response.employers[0].seniorLeadershipRating,
-            compensationAndBenefitsRating: response.data.response.employers[0].compensationAndBenefitsRating,
-            workLifeBalanceRating: response.data.response.employers[0].workLifeBalanceRating,
-            careerOpportunitiesRating: response.data.response.employers[0].careerOpportunitiesRating,
-            recommendToFriendRating: response.data.response.employers[0].recommendToFriend,
-          }; // end object
-          console.log( 'jobObject: ', jobObject );
+      method: 'POST',
+      url: '/addReview',
+      data: reviewObject
+    }).then(function(response){
+      $scope.reviewsAll = response.data;
+    });
 
-      for (var i = 0; i < response.data.response.employers.length; i++) {
-          console.log( 'inside the for loop of death and destruction' );
-      }
-        $scope.allglassdoorJobs.push( jobObject );
-        console.log( 'allglassdoorJobs:' + $scope.allglassdoorJobs[0].Name  );
+  };//end of submitReview
 
-////----------user input gets made into an object--------------------------------------------------
+///making the stars align
+$scope.rate = 7;
+$scope.max = 10;
+$scope.isReadonly = false;
+
+$scope.hoveringOver = function(value) {
+  $scope.overStar = value;
+  $scope.percent = 100 * (value / $scope.max);
+};
+
 var overallIn = $scope.overallRatingModel;
 var cultureAndValuesRatingIn = $scope.cultureAndValuesRatingModel;
 var seniorLeadershipRatingIn = $scope.seniorLeadershipRatingModel;
@@ -72,8 +66,78 @@ $scope.resultsArray.push( userPriorities );
 // 'recommendToFriendRating: ', recommendToFriendRating  );
 console.log( 'in resultsArray: ', $scope.resultsArray );
 //
-console.log( 'allglassdoorJobs.length: ', $scope.allglassdoorJobs.length );
-}); //end then after API call
+ //end then after API call
 
-};// end glassdoorSearch
+// $scope.search = function(){
+  // console.log( 'search clicked' );
+  // $scope.searchedJobs = [];
+  //
+  // var searchCriteria = $scope.searched;
+  // alert( searchCriteria );
+
+  // var glassdoorAPI = 'http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=75608&t.k=jtQTmCQF0QA&action=employers&q=technology&l=minnesota';
+      // $http({
+      //       method: 'POST',
+      //       url: '/searchJobs',
+      //       dataType: 'jsonp',
+      //       headers: { 'Content-Type':'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8081' }
+      //     }).then( function( response ){
+            // log the response from the http call
+            // console.log( 'retrieved info for ', response.data.searchCriteria);
+            // console.log( 'log', response.data.response.employers[0].name);
+        //     var searchResults={
+        //       Name: response.data.response.employers[0].name,
+        //       Review: response.data.response.employers[0].review,
+        //       }; // end object
+        //     console.log( 'jobObject: ', searchResults );
+        //
+        // for (var i = 0; i < response.data.response.employers.length; i++) {
+        //     console.log( 'inside the for loop of death and destruction' );
+        //     if( searchResults === searchResults.name){
+        //       console.log('searchResults: ' + searchResults.name );
+        //     }
+        // }
+//           $scope.searchedJobs.push( searchCriteria );
+//           console.log( 'searchedJobs:' + $scope.searchedJobs  );
+//
+//    });
+//
+// };
+//
+// $scope.search = function(){
+//   console.log( 'search clicked' );
+//   $scope.allglassdoorJobs = [];
+//
+//   var searchCriteria = $scope.searched;
+//
+//   var glassdoorAPI = 'http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=75608&t.k=jtQTmCQF0QA&action=employers&q=technology&l=minnesota';
+//       $http({
+//             method: 'POST',
+//             url: glassdoorAPI,
+//             dataType: 'jsonp',
+//             headers: { 'Content-Type':'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8081' }
+//           }).then( function( response ){
+//             // log the response from the http call
+//             console.log( 'retrieved info for ', response.data);
+//             console.log( 'log', response.data.response.employers[0].name);
+//             var searchResults={
+//               Name: response.data.response.employers[0].name,
+//               Review: response.data.response.employers[0].review,
+//               }; // end object
+//             console.log( 'jobObject: ', searchResults );
+//
+//         for (var i = 0; i < response.data.response.employers.length; i++) {
+//             console.log( 'inside the for loop of death and destruction' );
+//             if( searchResults === searchResults.name){
+//               console.log('searchResults: ' + searchResults.name );
+//             }
+//         }
+//           $scope.allglassdoorJobs.push( searchResults );
+//           console.log( 'allglassdoorJobs:' + $scope.allglassdoorJobs[0].Name  );
+//
+//    });
+//
+// };
+
+//
 }]); //end of successController

@@ -1,22 +1,46 @@
-<div>
+<div class="form-group">
 <form ng-submit="signUpNewUser()">
-    <div>
+  <table>
+      <tr>
+      <th>
         <label for="username">Username:</label>
+      </th>
+      <th>
         <input type="text" ng-model="user.username" />
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" ng-model="user.password" />
-    </div>
-    <div>
-        <label for="zip">Zip:</label>
-        <input type="text" ng-model="user.zip" />
-    </div>
-    <div>
-        <label for="cohort">Password:</label>
-        <input type="text" ng-model="user.cohort" />
-    </div>
-    <input class="btn btn-default" type="submit" name="submit" value="Sign Up" />
+
+      </th>
+      </tr>
+      <tr>
+        <th>
+          <label for="password">Password:</label>
+        </th>
+        <th>
+          <input type="password" ng-model="user.password" />
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <label for="zip">Zip:</label>
+        </th>
+        <th>
+          <input type="text" ng-model="user.zip" />
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <label for="cohort">Password:</label>
+        </th>
+        <th>
+          <input type="text" ng-model="user.cohort" />
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <input class="btn btn-default" type="submit" name="submit" value="Sign Up" />
+        </th>
+      </tr>
     <!-- <a href="#logIn">Cancel</a> -->
   </form>
+</table>
+
 </div>
