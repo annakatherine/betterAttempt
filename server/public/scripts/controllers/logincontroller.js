@@ -17,10 +17,10 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
               if(response.data.username) {
                 console.log('success: ', response.data);
                 // location works with SPA (ng-route)
-                $location.path('/success');
+                $location.path('/home');
               } else {
                 console.log('failure: ', response);
-                $scope.message = "Wrong!!";
+                $scope.message = "no.";
               }
             });
           }

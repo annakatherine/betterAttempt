@@ -1,28 +1,31 @@
 var express = require('express');
-var path = require('path');
-var pg = require('pg');
+var router = express.Router();
 var passport = require('passport');
+var path = require('path');
 
-// require module functions
+// module with bcrypt functions
 var encryptLib = require('../modules/encrypt');
 var connection = require('../modules/connection');
+var pg = require('pg');
 var connectionString = 'postgres://localhost:5432/primerDB';
-var router = express.Router();
+
+console.log('signup.js is in');
+// Handles request for HTML file
+
+// Handles POST request with new user data
 router.post('/', function(req, res, next) {
-  console.log( 'signUp.js is up and at em' );
-  // console.log('req.body.username = ', req.body.username);
-  // console.log('req.body.password = ', req.body.password);
-  var userSaved = {
+
+  var saveUser = {
     username: req.body.username,
     password: encryptLib.encryptPassword(req.body.password),
     zip: req.body.zip,
     cohort: req.body.cohort
   };
-  console.log('new user:', userSaved);
+  console.log('new user:', saveUser);
 
   pg.connect(connection, function(err, client, done) {
-    client.query("INSERT INTO primers (username, password, zip, cohort) VALUES ($1, $2, $3, $4 ) RETURNING id",
-      [userSaved.username, userSaved.password, userSaved.zip, userSaved.cohort],
+    client.query("INSERT INTO primers (username, password, zip, cohort) VALUES ($1, $2, $3, $4) RETURNING id",
+      [saveUser.username, saveUser.password, saveUser.zip, saveUser.cohort],
         function (err, result) {
           client.end();
 
@@ -31,8 +34,11 @@ router.post('/', function(req, res, next) {
             next(err);
           } else {
             res.redirect('/');
-          } //end of else
-        });//end of client.query
-      });//end of pg.connect
-    });//end of router.post
+          }
+        });
+  });
+
+});
+
+
 module.exports = router;

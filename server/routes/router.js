@@ -5,17 +5,14 @@ var pg = require('pg');
 var connectionString = 'postgres://localhost:5432/primerDB';
 
 // Handles Ajax request for user information if user is authenticated
-router.post('/', function(req, res) {
-  console.log( 'req' );
+router.get('/', function(req, res) {
     // check if logged in
     if(req.isAuthenticated()) {
-        console.log( 'below req.isAuthenticated' );
-          // send back user object from database
+        // send back user object from database
         res.send(req.user);
     } else {
         // failure best handled on the server. do redirect here.
         res.send(false);
-        console.log( ' where false would be ' );
     }
 });
 
@@ -26,7 +23,5 @@ router.get('/logout', function(req, res) {
   req.logOut();
   res.sendStatus(200);
 });
-
-
 
 module.exports = router;

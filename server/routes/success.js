@@ -60,7 +60,7 @@ router.post('/addReview', function( req, res, next ){
       console.log(searchedJob);
       return res.json(searchedJob);
     });
-  });//end scotchDB connectionString
+  });// connectionString
 });//end queryOut POST
 
 
