@@ -1,11 +1,14 @@
 myApp.controller('logInController', ['$scope', '$http', '$window',
 '$location', function($scope, $http, $window, $location) {
+  console.log( 'login controller loaded');
     $scope.user = {
       username: '',
       password: '',
       zip: '',
       cohort: '',
     };
+
+///------login function---------------------------------------
     $scope.message = '';
         $scope.logIn = function() {
           console.log( 'login clicked' );
@@ -25,14 +28,15 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
             });
           }
         };
-
+//-----------------signUpfunction--------------------------
         $scope.signUpNewUser = function() {
+          console.log( 'signUpNewUser clicked' );
           if($scope.user.username === '' || $scope.user.password === '') {
             $scope.message = "Choose a username and password!";
           } else {
             console.log('sending to server...', $scope.user);
-            $http.post('/signUp', $scope.user).then(function(response) {
-              console.log('success');
+            $http.post('/', $scope.user).then(function(response) {
+              console.log('made it past the post call for signUp in logincontroller');
               $location.path('/success');
             },
             function(response) {

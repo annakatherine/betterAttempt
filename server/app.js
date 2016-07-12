@@ -13,7 +13,7 @@ var session = require('express-session');
 
 //Route inclusion
 var login = require('./routes/logIn');
-var register = require('./routes/signUp');
+var signUp = require('./routes/signUp');
 var router = require('./routes/router');
 
 // Body parser middleware
@@ -38,7 +38,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/register', register);
+// app.use('/signUp', signUp);
+app.use('/', signUp);
 app.use('/router', router);
 app.use('/logIn', login);
 app.use('/', login);

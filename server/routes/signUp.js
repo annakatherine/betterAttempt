@@ -14,7 +14,7 @@ console.log('signup.js is in');
 
 // Handles POST request with new user data
 router.post('/', function(req, res, next) {
-
+console.log( 'after router.post in signup.js' );
   var saveUser = {
     username: req.body.username,
     password: encryptLib.encryptPassword(req.body.password),

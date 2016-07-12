@@ -12,7 +12,7 @@ router.post('/',
 );
 
 router.get('/', function( req, res ){
-  console.log( 'dirname: ', __dirname);
+  console.log( 'touched router.get login.js' );
   res.sendFile( path.join ( __dirname, '../public/views/pages/index.html') );
 });
 module.exports = router;

@@ -10,12 +10,11 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-//TODO SQL query
   console.log('called deserializeUser');
   pg.connect(connection, function (err, client) {
 
     var user = {};
-    console.log('called deserializeUser - pg');
+    console.log('deserialize this');
       var query = client.query("SELECT * FROM primers WHERE id = $1", [id]);
 
       query.on('row', function (row) {
@@ -42,12 +41,12 @@ passport.use('local', new localStrategy({
     usernameField: 'username'
     }, function(req, username, password, done){
 	    pg.connect(connection, function (err, client) {
-	    	console.log('called local - pg');
+	    	console.log('called local strategy in user.js ');
 	    	var user = {};
         var query = client.query("SELECT * FROM primers WHERE username = $1", [username]);
 
         query.on('row', function (row) {
-        	console.log('User obj', row);
+        	console.log('User obj in user.js', row);
         	user = row;
 
           // Hash and compare

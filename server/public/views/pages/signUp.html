@@ -1,5 +1,6 @@
 <div class="form-group">
-<form ng-submit="signUpNewUser()">
+<form>
+  <!-- used to have ng-submit="signUpNewUser()" in form -->
   <table>
       <tr>
       <th>
@@ -36,7 +37,7 @@
       </tr>
       <tr>
         <th>
-          <input class="btn btn-default" type="submit" name="submit" value="Sign Up" />
+          <input class="btn btn-default" type="submit" name="submit" ng-click="signUpNewUser()" value="Sign Up" />
         </th>
       </tr>
     <!-- <a href="#logIn">Cancel</a> -->
