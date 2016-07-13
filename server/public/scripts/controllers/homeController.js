@@ -4,7 +4,7 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
   $scope.reviewArray = [];
 
   $scope.top = true;
-  $scope.bottom = false;
+  // $scope.bottom = false;
 
     $scope.user_id= {};
     getUser();
@@ -46,13 +46,13 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
       url: '/addReview',
       data: reviewObject
     }).then(function(response){
-      console.log('review posted, response.data._id: ', response.data._id);
       $scope.reviewsAll = response.data;
-      console.log( 'review posted: ', response.data.id );
+      console.log('success: ', response.data);
+
     });
     $scope.reviewArray.push( reviewObject );
-    console.log( 'reviewObject.id: ', reviewObject.id);
-    console.log( 'reviewArray: ', $scope.reviewArray);
+
+
     $scope.companyNameModel = '';
     $scope.salaryModel = '';
     $scope.leadershipModel = '';
@@ -69,12 +69,13 @@ $scope.hoveringOver = function(value) {
   $scope.percent = 100 * (value / $scope.max);
 };
 //end of the stars aligning
-$scope.deleteReview = function(taskID){
+$scope.deleteReview = function(reviewID){
     event.preventDefault();
 
      console.log("In the d");
 
-     var sendID = {id: taskID};
+     var sendID = {id: reviewID};
+     alert( sendID );
      $http({
 
        method: 'DELETE',

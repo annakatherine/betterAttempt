@@ -16,7 +16,7 @@ var router = express.Router();
 //   console.log( 'inside results call' );
 // });
 router.post('/addReview', function( req, res, next ){
-  console.log( 'inside router.post for reviews' );
+  console.log( 'inside router.post for reviews', req.body.id );
     var reviewSaved = {
       // id: req.body.id,
       company_name: req.body.name,
@@ -27,21 +27,29 @@ router.post('/addReview', function( req, res, next ){
     console.log('new review:', reviewSaved);
 
     pg.connect(connectionString, function(err, client, done) {
-      client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review) VALUES ($1, $2, $3, $4 ) RETURNING id",
+      var apple = client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review) VALUES ( $1, $2, $3, $4 )RETURNING id ",
         [ reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review],
           function (err, result) {
-            // console.log( req.body.id );
-            client.end();
+            console.log( req.body.id );
+            apple.on('row', function (row) {
+              console.log('User row', row);
+              review = row;
+              done(null, review);
+            res.send(true);
+               done();
+            // client.end();
             if(err) {
               console.log("Error inserting data: ", err);
               next(err);
             } else {
               console.log( 'req.body.id: ', req.body.id);
-              res.redirect('/');
+
+              // res.redirect('/');
             } //end of else
           });//end of client.query
         });//end of pg.connect
       });//end of router.add post
+    });
 
 
 //------------attempt at a search function ---------------------------/////
