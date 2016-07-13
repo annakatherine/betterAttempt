@@ -18,6 +18,7 @@ var router = express.Router();
 router.post('/addReview', function( req, res, next ){
   console.log( 'inside router.post for reviews' );
     var reviewSaved = {
+      // id: req.body.id,
       company_name: req.body.name,
       salary: req.body.salary,
       leadership: req.body.leadership,
@@ -26,8 +27,8 @@ router.post('/addReview', function( req, res, next ){
     console.log('new review:', reviewSaved);
 
     pg.connect(connectionString, function(err, client, done) {
-      client.query("INSERT INTO jobreviews (company_name, salary, leadership, review) VALUES ($1, $2, $3, $4 ) RETURNING id",
-        [reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review],
+      client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review) VALUES ($1, $2, $3, $4 ) RETURNING id",
+        [ reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review],
           function (err, result) {
             // console.log( req.body.id );
             client.end();
@@ -65,7 +66,6 @@ router.post('/addReview', function( req, res, next ){
 
 
 router.delete('/deleteReview', function( req, res ){
-  
   console.log( 'reached router.delete' );
   pg.connect(connectionString, function(err, client, done){
     // console.log( req.body.name );

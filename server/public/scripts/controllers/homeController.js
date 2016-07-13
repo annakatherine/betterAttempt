@@ -72,7 +72,7 @@ $scope.hoveringOver = function(value) {
 $scope.deleteReview = function(taskID){
     event.preventDefault();
 
-     console.log("In da delete task: " + id);
+     console.log("In the d");
 
      var sendID = {id: taskID};
      $http({
