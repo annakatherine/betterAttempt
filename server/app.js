@@ -10,12 +10,11 @@ var connectionString = 'postgres://localhost:5432/primerDB';
 var passport = require('./strategy/user.js');
 var session = require('express-session');
 
-
 //Route inclusion
 var login = require('./routes/logIn');
 var signUp = require('./routes/signUp');
 var router = require('./routes/router');
-
+var success = require( './routes/success');
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -43,6 +42,7 @@ app.use('/', signUp);
 app.use('/router', router);
 app.use('/logIn', login);
 app.use('/', login);
+app.use('/', success);
 
 // Handle index file separately
 // app.get('/', function(req, res) {

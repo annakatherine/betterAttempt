@@ -15,7 +15,7 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
           if($scope.user.username === '' || $scope.user.password === '') {
             $scope.message = "Enter your username and password!";
           } else {
-            console.log('sending to server...', $scope.user);
+            console.log('logging in... ', $scope.user);
             $http.post('/logIn', $scope.user).then(function(response) {
               if(response.data.username) {
                 console.log('success: ', response.data);
@@ -34,7 +34,7 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
           if($scope.user.username === '' || $scope.user.password === '') {
             $scope.message = "Choose a username and password!";
           } else {
-            console.log('sending to server...', $scope.user);
+            console.log('signing Up... ', $scope.user);
             $http.post('/', $scope.user).then(function(response) {
               console.log('made it past the post call for signUp in logincontroller');
               $location.path('/success');

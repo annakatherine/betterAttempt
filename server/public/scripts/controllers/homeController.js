@@ -1,6 +1,10 @@
 
 myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $scope, $http, $location ){
   console.log( 'loaded homeController' );
+  $scope.reviewArray = [];
+
+  $scope.top = true;
+  $scope.bottom = false;
 
     $scope.user_id= {};
     getUser();
@@ -17,45 +21,86 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
       });
     }
 
-
     $scope.logout = function() {
       $http.get('/router/logout').then(function(response) {
         console.log('logged out');
         $location.path("/login");
       });
     };
-  }]);
-//   $scope.submitReview = function( ){
-//     console.log( 'submitReview clicked' );
-//
-//     var reviewObject = {
-//       name: $scope.companyNameModel,
-//       salary: $scope.salaryModel,
-//       leadership: $scope.leadershipModel,
-//       review: $scope.reviewModel
-//     };
-//
-//     alert( reviewObject.name + ' ' + reviewObject.salary + ' ' +reviewObject.leadership + ' ' + reviewObject.review );
-//
-//     $http({
-//       method: 'POST',
-//       url: '/addReview',
-//       data: reviewObject
-//     }).then(function(response){
-//       $scope.reviewsAll = response.data;
-//     });
-//
-//   };//end of submitReview
-//
-// ///making the stars align
-// $scope.rate = 7;
-// $scope.max = 10;
-// $scope.isReadonly = false;
-//
-// $scope.hoveringOver = function(value) {
-//   $scope.overStar = value;
-//   $scope.percent = 100 * (value / $scope.max);
-// };
+//-------------------------------------------------------------------------
+  $scope.submitReview = function( ){
+    console.log( 'submitReview clicked' );
+    //declare an empty array to hold review details for viewing
+    var reviewObject = {
+
+      name: $scope.companyNameModel,
+      salary: $scope.salaryModel,
+      leadership: $scope.leadershipModel,
+      review: $scope.reviewModel,
+  };
+    console.log( reviewObject.name + ' ' + reviewObject.salary,
+    reviewObject.leadership + ' ' + reviewObject.review );
+
+    $http({
+      method: 'POST',
+      url: '/addReview',
+      data: reviewObject
+    }).then(function(response){
+      console.log('review posted, response.data._id: ', response.data._id);
+      $scope.reviewsAll = response.data;
+      console.log( 'review posted: ', response.data.id );
+    });
+    $scope.reviewArray.push( reviewObject );
+    console.log( 'reviewObject.id: ', reviewObject.id);
+    console.log( 'reviewArray: ', $scope.reviewArray);
+    $scope.companyNameModel = '';
+    $scope.salaryModel = '';
+    $scope.leadershipModel = '';
+    $scope.reviewModel = '';
+  };//end of submitReview
+
+///making the stars align
+$scope.rate = 7;
+$scope.max = 10;
+$scope.isReadonly = false;
+
+$scope.hoveringOver = function(value) {
+  $scope.overStar = value;
+  $scope.percent = 100 * (value / $scope.max);
+};
+//end of the stars aligning
+$scope.deleteReview = function(taskID){
+    event.preventDefault();
+
+     console.log("In da delete task: " + id);
+
+     var sendID = {id: taskID};
+     $http({
+
+       method: 'DELETE',
+       url: '/deleteReview',
+       data: sendID,
+       headers: {'Content-Type': 'application/json;charset=utf-8'}
+
+     }).then(function(){
+       console.log( 'at the end of delete' );
+
+     });
+   };// End delete revie
+
+//--------------------end of deleteReview-------------------///
+
+$scope.showReviews = function(){
+  $http({
+    method: 'GET',
+    url: '/getmyReviews'
+  }).then(function(response){
+    $scope.allReviews = response.data;
+    console.log('here is what I entered');
+  });
+};//end showReviews
+
+}]);///end of home controller
 //
 // var overallIn = $scope.overallRatingModel;
 // var cultureAndValuesRatingIn = $scope.cultureAndValuesRatingModel;
