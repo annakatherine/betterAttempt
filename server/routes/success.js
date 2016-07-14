@@ -33,7 +33,6 @@ router.post('/addReview', function( req, res, next ){
             // console.log( 'req.body.id: ', req.body.id );
             console.log( 'result: ', result );
               reviewSaved.id = result.rows[0].id;
-
               res.send( reviewSaved );
                done();
             // client.end();
@@ -89,6 +88,29 @@ router.delete('/deleteReview/:id', function( req, res ){
   });
  });
 });
+
+
+router.put( '/editReview/:id', function( req, res ){
+  console.log( 'inside the put: ', req.params.id );
+  console.log( 'body: ', req.body );
+  pg.connect( );
+});
+
+
+//
+// router.get( '/getmyReviews', function( req, res ){
+//   console.log( 'inside get my reviews serverside' );
+//   client.query("SELECT * FROM jobreviews " );
+//   console.log( 'req.params.id ', req.params.id );
+// if(err){
+//   console.log( 'err: ', err );
+//   res.sendStatus(500);
+// } else {
+//   res.sendStatus(200);
+// }
+// done();
+// });
+
 
 //---------------delete function -------------------------------//
 

@@ -3,8 +3,8 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
   console.log( 'loaded homeController' );
   $scope.reviewArray = [];
 
-  $scope.top = true;
-  // $scope.bottom = false;
+  $scope.topHalf=true;
+  $scope.bottomHalf=false;
 
     $scope.user_id= {};
     getUser();
@@ -80,24 +80,47 @@ $scope.deleteReview = function(recordID){
        method: 'DELETE',
        url: '/deleteReview/' + recordID,
        headers: {'Content-Type': 'application/json;charset=utf-8'}
-
      }).then(function(){
        console.log( 'at the end of delete' );
-
      });
    };// End delete revie
 
 //--------------------end of deleteReview-------------------///
+//
+// $scope.showReviews = function(){
+//   $http({
+//     method: 'GET',
+//     url: '/getmyReviews'
+//   }).then(function(response){
+//     $scope.allReviews = response.data;
+//     console.log('here is what I entered');
+//
+//   });
+// };//end showReviews
 
-$scope.showReviews = function(){
+// $scope.showReviews();
+
+
+$scope.editReview = function( recordID ){
+// $scope.topHalf = !$scope.topHalf;
+// $scope.bottomHalf = !$scope.bottomHalf;
+  console.log( 'editReview clicked' );
   $http({
-    method: 'GET',
-    url: '/getmyReviews'
+    method: 'PUT',
+    url: '/editReview/' + recordID,
+    data: recordID
   }).then(function(response){
-    $scope.allReviews = response.data;
-    console.log('here is what I entered');
-  });
-};//end showReviews
+    console.log( 'put then function ');
+    $scope.updatedReview = response.data;
+
+  }); //end of then
+};
+
+// $scope.editFormOpen = function( ){
+//   $scope.topHalf = !$scope.topHalf;
+//   $scope.bottomHalf = !$scope.bottomHalf;
+//
+// };
 
 }]);///end of home controller
 //
