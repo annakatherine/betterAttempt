@@ -7,7 +7,7 @@ var path = require('path');
 var encryptLib = require('../modules/encrypt');
 var connection = require('../modules/connection');
 var pg = require('pg');
-var connectionString = 'postgres://localhost:5432/primerDB';
+var connectionString = 'postgres://localhost:5432/lastResort';
 
 console.log('signup.js is in');
 // Handles request for HTML file

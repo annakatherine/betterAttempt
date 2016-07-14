@@ -32,7 +32,6 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
     console.log( 'submitReview clicked' );
     //declare an empty array to hold review details for viewing
     var reviewObject = {
-
       name: $scope.companyNameModel,
       salary: $scope.salaryModel,
       leadership: $scope.leadershipModel,
@@ -48,10 +47,9 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
     }).then(function(response){
       $scope.reviewsAll = response.data;
       console.log('success: ', response.data);
-
+      $scope.reviewArray.push( response.data );
+      console.log('reviewArray: ', $scope.reviewArray );
     });
-    $scope.reviewArray.push( reviewObject );
-
 
     $scope.companyNameModel = '';
     $scope.salaryModel = '';
@@ -69,18 +67,18 @@ $scope.hoveringOver = function(value) {
   $scope.percent = 100 * (value / $scope.max);
 };
 //end of the stars aligning
-$scope.deleteReview = function(reviewID){
-    event.preventDefault();
+
+
+$scope.deleteReview = function(recordID){
+    // event.preventDefault();
 
      console.log("In the d");
-
-     var sendID = {id: reviewID};
+     console.log( 'recordID: ', recordID);
+     var sendID = {id: recordID};
      alert( sendID );
      $http({
-
        method: 'DELETE',
-       url: '/deleteReview',
-       data: sendID,
+       url: '/deleteReview/' + recordID,
        headers: {'Content-Type': 'application/json;charset=utf-8'}
 
      }).then(function(){

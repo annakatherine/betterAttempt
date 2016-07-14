@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 //server connection
 var pg = require('pg');
-var connectionString = 'postgres://localhost:5432/primerDB';
+var connectionString = 'postgres://localhost:5432/lastResort';
 
 //passport connection
 var passport = require('./strategy/user.js');

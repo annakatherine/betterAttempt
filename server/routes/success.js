@@ -27,15 +27,14 @@ router.post('/addReview', function( req, res, next ){
     console.log('new review:', reviewSaved);
 
     pg.connect(connectionString, function(err, client, done) {
-      var apple = client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review) VALUES ( $1, $2, $3, $4 )RETURNING id ",
+      var queriedReview = client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review) VALUES ( $1, $2, $3, $4 )RETURNING id",
         [ reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review],
           function (err, result) {
-            console.log( req.body.id );
-            apple.on('row', function (row) {
-              console.log('User row', row);
-              review = row;
-              done(null, review);
-            res.send(true);
+            // console.log( 'req.body.id: ', req.body.id );
+            console.log( 'result: ', result );
+              reviewSaved.id = result.rows[0].id;
+
+              res.send( reviewSaved );
                done();
             // client.end();
             if(err) {
@@ -49,7 +48,6 @@ router.post('/addReview', function( req, res, next ){
           });//end of client.query
         });//end of pg.connect
       });//end of router.add post
-    });
 
 
 //------------attempt at a search function ---------------------------/////
@@ -73,19 +71,22 @@ router.post('/addReview', function( req, res, next ){
 
 
 
-router.delete('/deleteReview', function( req, res ){
+router.delete('/deleteReview/:id', function( req, res ){
   console.log( 'reached router.delete' );
   pg.connect(connectionString, function(err, client, done){
+    console.log( 'err: ', err );
     // console.log( req.body.name );
     // var reviewToDelete = req.body.name;
-   client.query('DELETE from jobreviews WHERE id =' +req.body.id+ ';' );
+   client.query("DELETE FROM jobreviews WHERE id =" + req.params.id, function(err ){
+     console.log( 'req.params.id ', req.params.id );
    if(err){
+     console.log( 'err: ', err );
      res.sendStatus(500);
    } else {
      res.sendStatus(200);
    }
    done();
-
+  });
  });
 });
 
