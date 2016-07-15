@@ -11,7 +11,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   console.log('called deserializeUser');
-  pg.connect(connection, function (err, client) {
+  pg.connect(connection, function (err, client, complete) {
 
     var user = {};
     console.log('deserialize this');
@@ -25,7 +25,8 @@ passport.deserializeUser(function(id, done) {
 
       // After all data is returned, close connection and return results
       query.on('end', function () {
-          client.end();
+          // client.end();
+          complete();
       });
 
       // Handle Errors
@@ -40,7 +41,7 @@ passport.use('local', new localStrategy({
     passReqToCallback: true,
     usernameField: 'username'
     }, function(req, username, password, done){
-	    pg.connect(connection, function (err, client) {
+	    pg.connect(connection, function (err, client, complete) {
 	    	console.log('called local strategy in user.js ');
 	    	var user = {};
         var query = client.query("SELECT * FROM primers WHERE username = $1", [username]);
@@ -63,7 +64,8 @@ passport.use('local', new localStrategy({
 
         // After all data is returned, close connection and return results
         query.on('end', function () {
-            client.end();
+            // client.end();
+            complete();
         });
 
         // Handle Errors

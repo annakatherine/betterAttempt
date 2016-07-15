@@ -37,7 +37,7 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
       salary: $scope.salaryModel,
       leadership: $scope.leadershipModel,
       review: $scope.reviewModel,
-      username: $scope.username
+      // username: $scope.username
   };
     console.log( reviewObject.name + ' ' + reviewObject.salary,
     reviewObject.leadership + ' ' + reviewObject.review, ' ', reviewObject.userID );
@@ -104,7 +104,21 @@ $scope.deleteReview = function(recordID){
       });
     }; // end displayPlaymates
 
+//------------showMyReviews----------------------\\
 
+$scope.showMyReviews = function( ){
+  console.log( 'showMyReviews clicked' );
+  $http({
+    method: 'GET',
+    url: '/showUserReviews'
+  }).then(function(response) {
+    $rootScope.reviewArray = response.data;
+    $rootScope.curatedReviewArray = response.data;
+    console.log('all reviews: ', response.data);
+  }, function myError (response) {
+    console.log(response.statusText);
+  });
+};
     // $scope.curateReviews = function(){
     //   for (var i = 0; i < $scope.reviewArray.length; i++) {
     //     if( $scope.reviewArray.company_name !== $scope.searchedReview ){

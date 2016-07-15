@@ -8,6 +8,7 @@ var connectionString = 'postgres://localhost:5432/primerDB';
 router.get('/', function(req, res) {
     // check if logged in
     if(req.isAuthenticated()) {
+      console.log( 'req.user: ', req.user );
         // send back user object from database
         res.send(req.user);
     } else {

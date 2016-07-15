@@ -36,8 +36,9 @@
       <!-- <input type="text" name="name" id="searchedReview" value=""> -->
       <!-- <button type="button" name="button" ng-click="curateReviews()"> Search </button> -->
 
+<!-- TAKE THIS OUT UNTIL END OF SHOW BOTTOM IF XEDITABLE CAN WORK  -->
       <!--beginning of ng-show bottom -->
-      <div>
+      <!-- <div>
         <table ng-show='bottomHalf' >
           <tr>
             <th> Company Name in edit: </th>
@@ -59,10 +60,14 @@
           <tr>
            <th><button type="button" class="btn btn-default" ng-click="banananananana();" name="button">  Edit Review </button></th>
          </tr>
-      </div>
+      </div> -->
       <!--end of ng show bottom --->
+
+<!--- STOP TAKING SHIT OUT HERE ----------------->
       <button class="btn btn-default" ng-click="showReviews()"> Show All Reviews </button>
       <button class="btn btn-default" ng-click="logout()"> Log Out </button>
+      <button class="btn btn-default" ng-click="showMyReviews()"> Show My Reviews </button>
+
 
         <div class="reviewsViewed">
           <form class="inline">
@@ -78,15 +83,29 @@
             <th>Leadership Rating</th>
             <th>Review</th>
             </tr>
-            <tr ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
+<!-- THIS IS THE ONE YOU WANT TO SHOW TO DISPLAY THE REVIEW THAT THE USER JUST ENTERED -->
+<div>
+            <tr ng-repeat = "record in reviewArray">
               <th> {{record.id }} </th>
-              <th> {{record.company_name }} </th>
+              <th> <a href="#" editable-text="user.name" e-label="User Name">{{ record.company_name }} </a></th>
               <th> {{ record.salary }} </th>
               <th> {{record.leadership}} </th>
               <th> {{record.review}} </th>
             <th> <input type="button" value="Delete" class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
             <th> <input type="button" value="Edit" class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
             </tr>
+            <div>
+<!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
+            <tr ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
+              <th> {{record.id }} </th>
+              <th> {{record.company_name }} </th>
+              <th> {{ record.salary }} </th>
+              <th> {{record.leadership}} </th>
+              <th> {{record.review}} </th>
+            <!-- <th> <input type="button" value="Delete" class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
+            <!-- <th> <input type="button" value="Edit" class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
+            </tr>
+
            </table>
         </div>
 <!-- end of ng show bottom  -->

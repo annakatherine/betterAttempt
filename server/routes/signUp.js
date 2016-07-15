@@ -7,7 +7,8 @@ var path = require('path');
 var encryptLib = require('../modules/encrypt');
 var connection = require('../modules/connection');
 var pg = require('pg');
-var connectionString = 'postgres://localhost:5432/lastResort';
+////I do not think this one is necessary////////
+var connectionString = 'postgres://localhost:5432/primerDB';
 
 console.log('signup.js is in');
 // Handles request for HTML file
@@ -28,12 +29,12 @@ console.log( 'after router.post in signup.js' );
       [saveUser.username, saveUser.password, saveUser.zip, saveUser.cohort],
         function (err, result) {
           saveUser.id = result.rows[0].id;
+          console.log( 'saveUser.id: ', saveUser.id);
           //
           // res.send( saveUser );
-          //  done();
-
-          client.end();
-
+           done();
+          ////HOW DO I SEND OUT THE USER ID FROM HERE SO I CAN STRAP IT TO THE REVIEW ????/////
+          // client.end();
           if(err) {
             console.log("Error inserting data: ", err);
             next(err);
