@@ -27,6 +27,11 @@ console.log( 'after router.post in signup.js' );
     client.query("INSERT INTO primers (username, password, zip, cohort) VALUES ($1, $2, $3, $4) RETURNING id",
       [saveUser.username, saveUser.password, saveUser.zip, saveUser.cohort],
         function (err, result) {
+          saveUser.id = result.rows[0].id;
+          //
+          // res.send( saveUser );
+          //  done();
+
           client.end();
 
           if(err) {

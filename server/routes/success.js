@@ -23,12 +23,13 @@ router.post('/addReview', function( req, res, next ){
       salary: req.body.salary,
       leadership: req.body.leadership,
       review: req.body.review
+      // userID: req.body.userID
     };
     console.log('new review:', reviewSaved);
 
     pg.connect(connectionString, function(err, client, done) {
-      var queriedReview = client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review) VALUES ( $1, $2, $3, $4 )RETURNING id",
-        [ reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review],
+      var queriedReview = client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review ) VALUES ( $1, $2, $3, $4 )RETURNING id",
+        [ reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review ],
           function (err, result) {
             // console.log( 'req.body.id: ', req.body.id );
             console.log( 'result: ', result );
@@ -50,24 +51,23 @@ router.post('/addReview', function( req, res, next ){
 
 
 //------------attempt at a search function ---------------------------/////
-  router.post('/searchJobs', function (req, res){
-  console.log('in searchJobs ', req.body.searchResults );
-  var searchedJob = [];
-  pg.connect(connectionString, function(err, client, done){
-    // var jobQuery = client.query( "SELECT * FROM jobreviews WHERE company_name LIKE 'r%'");
-    var jobQuery = client.query( "SELECT * FROM jobreviews WHERE company_name::text ILIKE '%" + req.body.company_name + "%'");
-    // console.log('after jobQuery', jobQuery );
-    jobQuery.on('row', function(row){
-      searchedJob.push(row);
-      console.log('searchedJob' + searchedJob);
-    });
-    jobQuery.on('end', function(){
-      console.log(searchedJob);
-      return res.json(searchedJob);
-    });
-  });// end pg.connect
-});//end searchJobs POST
-
+//   router.post('/searchJobs', function (req, res){
+//   console.log('in searchJobs ', req.body.searchResults );
+//   var searchedJob = [];
+//   pg.connect(connectionString, function(err, client, done){
+//     // var jobQuery = client.query( "SELECT * FROM jobreviews WHERE company_name LIKE 'r%'");
+//     var jobQuery = client.query( "SELECT * FROM jobreviews WHERE company_name::text ILIKE '%" + req.body.company_name + "%'");
+//     // console.log('after jobQuery', jobQuery );
+//     jobQuery.on('row', function(row){
+//       searchedJob.push(row);
+//       console.log('searchedJob' + searchedJob);
+//     });
+//     jobQuery.on('end', function(){
+//       console.log(searchedJob);
+//       return res.json(searchedJob);
+//     });
+//   });// end pg.connect
+// });//end searchJobs POST
 
 
 router.delete('/deleteReview/:id', function( req, res ){
@@ -89,28 +89,31 @@ router.delete('/deleteReview/:id', function( req, res ){
  });
 });
 
-
-router.put( '/editReview/:id', function( req, res ){
-  console.log( 'inside the put: ', req.params.id );
-  console.log( 'body: ', req.body );
-  pg.connect( );
-});
-
-
-//
-// router.get( '/getmyReviews', function( req, res ){
-//   console.log( 'inside get my reviews serverside' );
-//   client.query("SELECT * FROM jobreviews " );
-//   console.log( 'req.params.id ', req.params.id );
-// if(err){
-//   console.log( 'err: ', err );
-//   res.sendStatus(500);
-// } else {
-//   res.sendStatus(200);
-// }
-// done();
+// this is not going to work today.
+// router.put( '/editReview/:id', function( req, res ){
+//   console.log( 'inside the put: ', req.params.id );
+//   console.log( 'body: ', req.body );
+//   pg.connect( );
 // });
 
+
+router.get('/getReviews', function(req, res) {
+  var results = [];
+  pg.connect(connectionString, function(err, client, done) {
+    var reviewsReturned = client.query('SELECT * FROM jobreviews;');
+    // push each row in query into our results array
+    reviewsReturned.on('row', function(row) {
+      results.push(row);
+    }); // end query push
+    reviewsReturned.on('end', function(){
+      console.log('results from reviewsReturned: ', results);
+      return res.json(results);
+    });
+    if(err) {
+      console.log(err);
+    }
+  }); // end pg connect
+});//end of get reivews
 
 //---------------delete function -------------------------------//
 

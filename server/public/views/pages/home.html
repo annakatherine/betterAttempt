@@ -4,17 +4,13 @@
   <div ng-controller='homeController'>
 
   <div class="container">
-    <h1 id="welcome" class="lead"> Welcome, {{userName}}! </h1>
+    <h1 id="welcome" class="lead"> Welcome, {{userName}} {{user_id}}! </h1>
     <p></p>
-    <button class="btn btn-default" ng-click="logout()"> Log Out </button>
     <h1> Hello </h1>
     <h3>Please tell us about your company: </h3>
-        <!-- <form name="inputForm"> -->
-      <!-- <label for = "useråReview"> </label> -->
-        <!-- <form>
-          <div class="form-group" > -->
+
       <div  class='top'>
-        <table ng-show='topHalf'>
+        <table ng-show='topHalf' id="formTable">
           <tr>
             <th> Company Name in submit: </th>
             <th> <input type="text" name="name" value="" ng-model="companyNameModel"> </th>
@@ -33,10 +29,13 @@
               <th> Review of company:</th>
               <th><textarea rows="4" cols="50" name="review" value="" ng-model="reviewModel"></textarea></th>
           <tr>
-           <th><button type="button" ng-click="submitReview();" name="button">  Submit Review </button></th>
+           <th><button type="button" class="btn btn-default" ng-click="submitReview();" name="button"> Submit Review </button></th>
          </tr>
       </div>
       <!-- ^^^^^^^^^^^end of ng show top -->
+      <!-- <input type="text" name="name" id="searchedReview" value=""> -->
+      <!-- <button type="button" name="button" ng-click="curateReviews()"> Search </button> -->
+
       <!--beginning of ng-show bottom -->
       <div>
         <table ng-show='bottomHalf' >
@@ -58,12 +57,20 @@
               <th> Review of company:</th>
               <th><textarea rows="4" cols="50" name="review" value="" ng-model="reviewModel"></textarea></th>
           <tr>
-           <th><button type="button" ng-click="banananananana();" name="button">  Edit Review </button></th>
+           <th><button type="button" class="btn btn-default" ng-click="banananananana();" name="button">  Edit Review </button></th>
          </tr>
       </div>
       <!--end of ng show bottom --->
-      <div class="reviewsViewed">
-          <table cellpadding="30">
+      <button class="btn btn-default" ng-click="showReviews()"> Show All Reviews </button>
+      <button class="btn btn-default" ng-click="logout()"> Log Out </button>
+
+        <div class="reviewsViewed">
+          <form class="inline">
+             <input ng-model="query" type="text"
+               placeholder="Filter by Company Name" autofocus>
+            </form>
+
+          <table cellpadding="30" id="displayReviews">
             <tr>
             <th>Record</th>
             <th>Company Name </th>
@@ -71,9 +78,9 @@
             <th>Leadership Rating</th>
             <th>Review</th>
             </tr>
-            <tr ng-repeat = "record in reviewArray">
+            <tr ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
               <th> {{record.id }} </th>
-              <th> {{record.name }} </th>
+              <th> {{record.company_name }} </th>
               <th> {{ record.salary }} </th>
               <th> {{record.leadership}} </th>
               <th> {{record.review}} </th>
@@ -85,5 +92,6 @@
 <!-- end of ng show bottom  -->
 </div>
 </div>
+<!-- </div> -->
 </body>
 </html>

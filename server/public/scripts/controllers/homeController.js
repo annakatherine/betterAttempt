@@ -1,10 +1,11 @@
 
-myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $scope, $http, $location ){
+myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope', function( $scope, $http, $location, $rootScope ){
   console.log( 'loaded homeController' );
-  $scope.reviewArray = [];
+  $rootScope.reviewArray = [];
 
   $scope.topHalf=true;
   $scope.bottomHalf=false;
+  $scope.searchName = '';
 
     $scope.user_id= {};
     getUser();
@@ -14,7 +15,7 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
           if(response.data.username) {
               $scope.userName = response.data.username;
               $scope.user_id = response.data._id;
-              console.log('User Data: ', $scope.userName);
+              console.log('User Data: ', $scope.userName, response.data._id);
           } else {
               $location.path("/login");
           }
@@ -29,16 +30,17 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
     };
 //-------------------------------------------------------------------------
   $scope.submitReview = function( ){
-    console.log( 'submitReview clicked' );
+    console.log( 'submitReview clicked by: ', $scope.reviewArray.user_id );
     //declare an empty array to hold review details for viewing
     var reviewObject = {
       name: $scope.companyNameModel,
       salary: $scope.salaryModel,
       leadership: $scope.leadershipModel,
       review: $scope.reviewModel,
+      username: $scope.username
   };
     console.log( reviewObject.name + ' ' + reviewObject.salary,
-    reviewObject.leadership + ' ' + reviewObject.review );
+    reviewObject.leadership + ' ' + reviewObject.review, ' ', reviewObject.userID );
 
     $http({
       method: 'POST',
@@ -56,7 +58,7 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', function( $
     $scope.leadershipModel = '';
     $scope.reviewModel = '';
   };//end of submitReview
-
+//-----------------------------------------------------------------------------
 ///making the stars align
 $scope.rate = 7;
 $scope.max = 10;
@@ -67,55 +69,82 @@ $scope.hoveringOver = function(value) {
   $scope.percent = 100 * (value / $scope.max);
 };
 //end of the stars aligning
-
+//----------------------
 
 $scope.deleteReview = function(recordID){
     // event.preventDefault();
-
-     console.log("In the d");
+     console.log("In the delete");
      console.log( 'recordID: ', recordID);
      var sendID = {id: recordID};
-     alert( sendID );
+    //  alert( sendID );
      $http({
        method: 'DELETE',
        url: '/deleteReview/' + recordID,
        headers: {'Content-Type': 'application/json;charset=utf-8'}
      }).then(function(){
+       $scope.reviewArray.splice( sendID, 1 );
+
        console.log( 'at the end of delete' );
-     });
-   };// End delete revie
+     });//end of .then
+   };// End delete review
 
 //--------------------end of deleteReview-------------------///
+//   get method to retrieve data from server to display
+    $scope.showReviews = function() {
+      console.log( 'showReviews clicked' );
+      $http({
+        method: 'GET',
+        url: '/getReviews'
+      }).then(function(response) {
+        $rootScope.reviewArray = response.data;
+        $rootScope.curatedReviewArray = response.data;
+        console.log('all reviews: ', response.data);
+      }, function myError (response) {
+        console.log(response.statusText);
+      });
+    }; // end displayPlaymates
+
+
+    // $scope.curateReviews = function(){
+    //   for (var i = 0; i < $scope.reviewArray.length; i++) {
+    //     if( $scope.reviewArray.company_name !== $scope.searchedReview ){
+    //       $scope.reviewArray.company_name.splice( $scope.searchedReview );
+    //     }
+    //   }
+
+
+    // for loop through $rootScope.curatedReviewArray
+    // remove any that don't have name of $scope.searchName
+    // $rootScope.curatedReviewArray
+    // };
+
+    ///if you want to display upon load later this spot worksvvv---//
+    // $scope.showReviews();
+
+//---------END OF SHOW REVIEWS-----------------------------///////
+
+
+// $scope.editReview = function( recordID ){
+//   $scope.topHalf = !$scope.topHalf;
+//   $scope.bottomHalf = !$scope.bottomHalf;
+// };
 //
-// $scope.showReviews = function(){
+// $scope.banananananana = function( recordID ){
+//   console.log( 'editReview clicked' );
 //   $http({
-//     method: 'GET',
-//     url: '/getmyReviews'
+//     method: 'PUT',
+//     url: '/editReview/' + recordID,
+//     data: recordID
 //   }).then(function(response){
-//     $scope.allReviews = response.data;
-//     console.log('here is what I entered');
+//     console.log( 'put then function ');
+//     $scope.updatedReview = response.data;
 //
-//   });
-// };//end showReviews
+//   }); //end of then
+// };
 
-// $scope.showReviews();
-
-
-$scope.editReview = function( recordID ){
-// $scope.topHalf = !$scope.topHalf;
-// $scope.bottomHalf = !$scope.bottomHalf;
-  console.log( 'editReview clicked' );
-  $http({
-    method: 'PUT',
-    url: '/editReview/' + recordID,
-    data: recordID
-  }).then(function(response){
-    console.log( 'put then function ');
-    $scope.updatedReview = response.data;
-
-  }); //end of then
-};
-
+$scope.filterFunction = function(element) {
+     return element.company_name.match(/^Ma/) ? true : false;
+   };
 // $scope.editFormOpen = function( ){
 //   $scope.topHalf = !$scope.topHalf;
 //   $scope.bottomHalf = !$scope.bottomHalf;
