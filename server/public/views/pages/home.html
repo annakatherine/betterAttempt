@@ -67,8 +67,6 @@
       <button class="btn btn-default" ng-click="showReviews()"> Show All Reviews </button>
       <button class="btn btn-default" ng-click="logout()"> Log Out </button>
       <button class="btn btn-default" ng-click="showMyReviews()"> Show My Reviews </button>
-
-
         <div class="reviewsViewed">
           <form class="inline">
              <input ng-model="query" type="text"
@@ -84,20 +82,21 @@
             <th>Review</th>
             </tr>
 <!-- THIS IS THE ONE YOU WANT TO SHOW TO DISPLAY THE REVIEW THAT THE USER JUST ENTERED -->
-<div>
-            <tr ng-repeat = "record in reviewArray">
-              <th> {{record.id }} </th>
-              <th> <a href="#" editable-text="user.name" e-label="User Name">{{ record.company_name }} </a></th>
+            <div>
+            <tr ng-repeat = "record in reviewArray" ng-show="justEnteredForm">
+              <th> {{record.id }} in the justEnteredForm </th>
+              <th> {{ record.company_name || 'empty' }} </th>
               <th> {{ record.salary }} </th>
               <th> {{record.leadership}} </th>
               <th> {{record.review}} </th>
-            <th> <input type="button" value="Delete" class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
-            <th> <input type="button" value="Edit" class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
+            <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
+            <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
             </tr>
-            <div>
-<!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
-            <tr ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
-              <th> {{record.id }} </th>
+          </div>
+          <!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
+          <div>
+            <tr ng-show="alltheReviewsForm" ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
+              <th> {{record.id }} in allTheReviews </th>
               <th> {{record.company_name }} </th>
               <th> {{ record.salary }} </th>
               <th> {{record.leadership}} </th>
@@ -105,6 +104,33 @@
             <!-- <th> <input type="button" value="Delete" class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
             <!-- <th> <input type="button" value="Edit" class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
             </tr>
+          </div>
+            <!-- form -->
+            <!-- <tr ng-show="editableForm"> -->
+            <div>
+              <tr ng-show="onlyMyReviews" ng-repeat = "record in myReviewArray" >
+                <th> {{ record.id }} in the showMyReviews </th>
+                <th> {{ record.company_name || 'empty' }} </th>
+                <th> {{ record.salary }} </th>
+                <th> {{ record.leadership}} </th>
+                <th> {{ record.review}} </th>
+              <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
+              <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
+              </tr>
+            </div>
+                   <!-- <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+                     <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                       save
+                     </button>
+                     <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                       cancel
+                     </button>
+                   </form>
+                   <div class="buttons" ng-show="!rowform.$visible">
+                     <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+                     <button class="btn btn-danger" ng-click="removeUser($index)">del</button>
+                   </div> -->
+            <!-- </tr> -->
 
            </table>
         </div>

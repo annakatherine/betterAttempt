@@ -2,9 +2,11 @@
 myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope', function( $scope, $http, $location, $rootScope ){
   console.log( 'loaded homeController' );
   $rootScope.reviewArray = [];
-
+  $rootScope.myReviewArray = [];
+  $scope.justEnteredForm=true;
+  $scope.alltheReviewsForm=false;
+  $scope.editableForm=false;
   $scope.topHalf=true;
-  $scope.bottomHalf=false;
   $scope.searchName = '';
 
     $scope.user_id= {};
@@ -31,6 +33,10 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
 //-------------------------------------------------------------------------
   $scope.submitReview = function( ){
     console.log( 'submitReview clicked by: ', $scope.reviewArray.user_id );
+    $scope.justEnteredForm=true;
+    $scope.alltheReviewsForm=false;
+    $scope.editableForm=false;
+    $scope.topHalf=false;
     //declare an empty array to hold review details for viewing
     var reviewObject = {
       name: $scope.companyNameModel,
@@ -92,12 +98,16 @@ $scope.deleteReview = function(recordID){
 //   get method to retrieve data from server to display
     $scope.showReviews = function() {
       console.log( 'showReviews clicked' );
+      $scope.justEnteredForm=false;
+      $scope.alltheReviewsForm=true;
+      $scope.onlyMyReviews=false;
+      $scope.topHalf=true;
       $http({
         method: 'GET',
         url: '/getReviews'
       }).then(function(response) {
         $rootScope.reviewArray = response.data;
-        $rootScope.curatedReviewArray = response.data;
+        // $rootScope.curatedReviewArray = response.data;
         console.log('all reviews: ', response.data);
       }, function myError (response) {
         console.log(response.statusText);
@@ -108,35 +118,26 @@ $scope.deleteReview = function(recordID){
 
 $scope.showMyReviews = function( ){
   console.log( 'showMyReviews clicked' );
+  $scope.justEnteredForm=false;
+  $scope.alltheReviewsForm=false;
+  $scope.onlyMyReviews=true;
+  $scope.topHalf=false;
   $http({
     method: 'GET',
     url: '/showUserReviews'
   }).then(function(response) {
-    $rootScope.reviewArray = response.data;
-    $rootScope.curatedReviewArray = response.data;
-    console.log('all reviews: ', response.data);
+    $rootScope.myReviewArray = response.data;
+    // $rootScope.curatedReviewArray = response.data;
+    console.log('all reviews in showMyReviews ', $rootScope.myReviewArray);
   }, function myError (response) {
     console.log(response.statusText);
   });
 };
-    // $scope.curateReviews = function(){
-    //   for (var i = 0; i < $scope.reviewArray.length; i++) {
-    //     if( $scope.reviewArray.company_name !== $scope.searchedReview ){
-    //       $scope.reviewArray.company_name.splice( $scope.searchedReview );
-    //     }
-    //   }
-
-
-    // for loop through $rootScope.curatedReviewArray
-    // remove any that don't have name of $scope.searchName
-    // $rootScope.curatedReviewArray
-    // };
 
     ///if you want to display upon load later this spot worksvvv---//
     // $scope.showReviews();
 
 //---------END OF SHOW REVIEWS-----------------------------///////
-
 
 // $scope.editReview = function( recordID ){
 //   $scope.topHalf = !$scope.topHalf;
@@ -159,11 +160,6 @@ $scope.showMyReviews = function( ){
 $scope.filterFunction = function(element) {
      return element.company_name.match(/^Ma/) ? true : false;
    };
-// $scope.editFormOpen = function( ){
-//   $scope.topHalf = !$scope.topHalf;
-//   $scope.bottomHalf = !$scope.bottomHalf;
-//
-// };
 
 }]);///end of home controller
 //
