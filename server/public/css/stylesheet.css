@@ -1,4 +1,4 @@
-/*header{
+header{
   text-align: center;
   background-color: #2BBDED;
   margin: 0px 0px 100px 0px;
@@ -17,13 +17,13 @@ h1 {
   text-align: center;
 }
 #formTable{
-  background-color: red;
+  /*background-color: red;*/
 }
 .top{
-  background-color: purple;
+  /*background-color: purple;*/
 }
 #displayReviews{
-  background-color: yellow;
+  /*background-color: yellow;*/
   padding: 10px 10px 10px 10px;
 
 }
@@ -47,15 +47,15 @@ table, th{
 }
 
 .form-group{
-  background-color: green;
+  /*background-color: green;*/
   padding: 10px 10px 10px 10px;
   align-content: center;
 
 }
 .reviewsViewed th{
-  background-color: red;
+  /*background-color: red;*/
 }
 
 body{
   background-color: gray;
-};*/
+};

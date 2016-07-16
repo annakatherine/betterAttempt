@@ -8,22 +8,16 @@ var bodyParser = require('body-parser');
 // var userString = require('../modules/userdatabase');
 var connectionString = 'postgres://localhost:5432/primerDB';
 var router = express.Router();
-// router.get('/', function(req, res) {
-//   console.log( 'inside the success.js');
-//   res.sendFile(path.resolve('public/views/success.html'));
-// });
-// router.get('/results', function( req, res ){
-//   console.log( 'inside results call' );
-// });
+
+
+//serverside post to add a review
 router.post('/addReview', function( req, res, next ){
   console.log( 'inside router.post for reviews', req.user );
     var reviewSaved = {
-      // id: req.body.id,
       company_name: req.body.name,
       salary: req.body.salary,
       leadership: req.body.leadership,
       review: req.body.review
-      // userID: req.body.userID
     };
     console.log('new review:', reviewSaved);
 
@@ -37,7 +31,6 @@ router.post('/addReview', function( req, res, next ){
             } else {
               console.log( 'req.body.id: ', req.body.id);
             }
-  // console.log( 'req.body.id: ', req.body.id );
             console.log( 'result: ', result );
               reviewSaved.id = result.rows[0].id;
               reviewSaved.reviewerID = req.user.id;
@@ -50,28 +43,11 @@ router.post('/addReview', function( req, res, next ){
           });//end of client.query
         });//end of pg.connect
       });//end of router.add post
+// ---------END OF ADD REVIEW POST----------------------//
 
 
-//------------attempt at a search function ---------------------------/////
-//   router.post('/searchJobs', function (req, res){
-//   console.log('in searchJobs ', req.body.searchResults );
-//   var searchedJob = [];
-//   pg.connect(connectionString, function(err, client, done){
-//     // var jobQuery = client.query( "SELECT * FROM jobreviews WHERE company_name LIKE 'r%'");
-//     var jobQuery = client.query( "SELECT * FROM jobreviews WHERE company_name::text ILIKE '%" + req.body.company_name + "%'");
-//     // console.log('after jobQuery', jobQuery );
-//     jobQuery.on('row', function(row){
-//       searchedJob.push(row);
-//       console.log('searchedJob' + searchedJob);
-//     });
-//     jobQuery.on('end', function(){
-//       console.log(searchedJob);
-//       return res.json(searchedJob);
-//     });
-//   });// end pg.connect
-// });//end searchJobs POST
 
-
+//serverside delete review function
 router.delete('/deleteReview/:id', function( req, res ){
   console.log( 'reached router.delete' );
   pg.connect(connectionString, function(err, client, done){
@@ -87,9 +63,10 @@ router.delete('/deleteReview/:id', function( req, res ){
      res.sendStatus(200);
    }
    done();
-  });
- });
+ }); //end client.query
+ }); //end pg.connect
 });
+// ---------END OF DELETE REVIEW POST----------------------//
 
 // this is not going to work today.
 // router.put( '/editReview/:id', function( req, res ){
@@ -117,6 +94,51 @@ router.get('/getReviews', function(req, res) {
   }); // end pg connect
 });//end of get reivews
 
+// -------END OF GET ALL UNORDERED REVIEWS----------------------------//
+
+//serverside query to display by salary
+router.get('/salarySearch', function(req, res) {
+  var results = [];
+  pg.connect(connectionString, function(err, client, done) {
+    var reviewsReturned = client.query('SELECT * FROM jobreviews ORDER BY salary DESC;');
+    // push each row in query into our results array
+    reviewsReturned.on('row', function(row) {
+      results.push(row);
+    }); // end query push
+    reviewsReturned.on('end', function(){
+      console.log('results from reviewsReturned: ', results);
+      return res.json(results);
+    });
+    if(err) {
+      console.log(err);
+    }
+  }); // end pg connect
+});//end of get reivews
+
+// -------END OF GET BY SALARY REVIEWS----------------------------//
+
+//serverside query to display by leadership
+router.get('/leadershipSearch', function(req, res) {
+  var results = [];
+  pg.connect(connectionString, function(err, client, done) {
+    var reviewsReturned = client.query('SELECT * FROM jobreviews ORDER BY leadership DESC;');
+    // push each row in query into our results array
+    reviewsReturned.on('row', function(row) {
+      results.push(row);
+    }); // end query push
+    reviewsReturned.on('end', function(){
+      console.log('results from leadershipSearch: ', results);
+      return res.json(results);
+    });
+    if(err) {
+      console.log(err);
+    }
+  }); // end pg connect
+});//end of get reivews
+
+// -------END OF GET BY SALARY REVIEWS----------------------------//
+
+//serverside query to get only reviews submitted by current user
 router.get('/showUserReviews', function(req, res) {
   console.log( 'inside showUserReviews, req.user: ', req.user, 'user.id: ', req.user.id );
   var myReviews = [];
@@ -137,6 +159,5 @@ router.get('/showUserReviews', function(req, res) {
   }); // end pg connect
 });//end of get reivews
 
-//---------------delete function -------------------------------//
 
 module.exports = router;

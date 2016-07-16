@@ -1,14 +1,25 @@
 
 myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope', function( $scope, $http, $location, $rootScope ){
   console.log( 'loaded homeController' );
+
+  //call arrays for displaying reviews on the DOM
   $rootScope.reviewArray = [];
   $rootScope.myReviewArray = [];
+  $rootScope.salaryArray = [];
+  $rootScope.leadershipArray = [];
+
+  //toggles the views
   $scope.justEnteredForm=true;
   $scope.alltheReviewsForm=false;
   $scope.editableForm=false;
   $scope.topHalf=true;
+  $scope.salaryShow=false;
+  $scope.leadershipShow=false;
+
+  //-vvvvvNO IDEA WHERE THIS CAME FROM. WHAT DOES IT DO? ----------
   $scope.searchName = '';
 
+// -----------beginning of logIn logic------------------------//
     $scope.user_id= {};
     getUser();
 
@@ -30,13 +41,19 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
         $location.path("/login");
       });
     };
-//-------------------------------------------------------------------------
+//-------END OF LOGIN LOGIC----------------------------------//
+
+//click functionality to add a review to db
   $scope.submitReview = function( ){
     console.log( 'submitReview clicked by: ', $scope.reviewArray.user_id );
     $scope.justEnteredForm=true;
     $scope.alltheReviewsForm=false;
     $scope.editableForm=false;
     $scope.topHalf=false;
+    $scope.salaryShow=false;
+    $scope.leadershipShow=false;
+
+
     //declare an empty array to hold review details for viewing
     var reviewObject = {
       name: $scope.companyNameModel,
@@ -47,7 +64,7 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
   };
     console.log( reviewObject.name + ' ' + reviewObject.salary,
     reviewObject.leadership + ' ' + reviewObject.review, ' ', reviewObject.userID );
-
+//sending review to the DB
     $http({
       method: 'POST',
       url: '/addReview',
@@ -55,16 +72,21 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
     }).then(function(response){
       $scope.reviewsAll = response.data;
       console.log('success: ', response.data);
+
+//adding review upon return from the db to the array for displaying on DOM
       $scope.reviewArray.push( response.data );
       console.log('reviewArray: ', $scope.reviewArray );
     });
 
+//clears input fields for the next submission
     $scope.companyNameModel = '';
     $scope.salaryModel = '';
     $scope.leadershipModel = '';
     $scope.reviewModel = '';
-  };//end of submitReview
-//-----------------------------------------------------------------------------
+  };
+
+//------------------END OF SUBMIT REVIEW---------------------------------
+
 ///making the stars align
 $scope.rate = 7;
 $scope.max = 10;
@@ -74,34 +96,42 @@ $scope.hoveringOver = function(value) {
   $scope.overStar = value;
   $scope.percent = 100 * (value / $scope.max);
 };
-//end of the stars aligning
-//----------------------
+//--------------END OF STARS ALIGNING-----------------------------//
 
+//click function to delete review
 $scope.deleteReview = function(recordID){
-    // event.preventDefault();
+    event.preventDefault();
      console.log("In the delete");
      console.log( 'recordID: ', recordID);
      var sendID = {id: recordID};
-    //  alert( sendID );
+
+//sending delete request to DB
      $http({
        method: 'DELETE',
        url: '/deleteReview/' + recordID,
        headers: {'Content-Type': 'application/json;charset=utf-8'}
      }).then(function(){
-       $scope.reviewArray.splice( sendID, 1 );
 
+       //takes deleted review off the DOM and shows new list
+       $scope.reviewArray.splice( sendID, 1 );
+       $scope.showMyReviews();
        console.log( 'at the end of delete' );
      });//end of .then
-   };// End delete review
+   };
 
 //--------------------end of deleteReview-------------------///
-//   get method to retrieve data from server to display
+
+//this will query the db to return all reviews in the system in no order.
     $scope.showReviews = function() {
       console.log( 'showReviews clicked' );
       $scope.justEnteredForm=false;
       $scope.alltheReviewsForm=true;
       $scope.onlyMyReviews=false;
       $scope.topHalf=true;
+      $scope.salaryShow=false;
+      $scope.leadershipShow=false;
+
+
       $http({
         method: 'GET',
         url: '/getReviews'
@@ -112,16 +142,21 @@ $scope.deleteReview = function(recordID){
       }, function myError (response) {
         console.log(response.statusText);
       });
-    }; // end displayPlaymates
+    }; // end getReviews
 
-//------------showMyReviews----------------------\\
+//------------END OF SHOW ALL UNORDERED REVIEWS----------------------\\
 
+//this will show only the reviews entered by the user currently logged in.
 $scope.showMyReviews = function( ){
   console.log( 'showMyReviews clicked' );
   $scope.justEnteredForm=false;
   $scope.alltheReviewsForm=false;
   $scope.onlyMyReviews=true;
   $scope.topHalf=false;
+  $scope.salaryShow=false;
+  $scope.leadershipShow=false;
+
+
   $http({
     method: 'GET',
     url: '/showUserReviews'
@@ -137,25 +172,58 @@ $scope.showMyReviews = function( ){
     ///if you want to display upon load later this spot worksvvv---//
     // $scope.showReviews();
 
-//---------END OF SHOW REVIEWS-----------------------------///////
+//---------END OF SHOW BY USER REVIEWS-----------------------------///////
 
-// $scope.editReview = function( recordID ){
-//   $scope.topHalf = !$scope.topHalf;
-//   $scope.bottomHalf = !$scope.bottomHalf;
-// };
-//
-// $scope.banananananana = function( recordID ){
-//   console.log( 'editReview clicked' );
-//   $http({
-//     method: 'PUT',
-//     url: '/editReview/' + recordID,
-//     data: recordID
-//   }).then(function(response){
-//     console.log( 'put then function ');
-//     $scope.updatedReview = response.data;
-//
-//   }); //end of then
-// };
+//queries the db and returns in order of salary best to worst
+$scope.salarySearch = function( ){
+  console.log( 'salarySearch clicked' );
+  $scope.justEnteredForm=false;
+  $scope.alltheReviewsForm=false;
+  $scope.onlyMyReviews=false;
+  $scope.topHalf=false;
+  $scope.salaryShow=true;
+  $scope.leadershipShow=false;
+
+
+
+
+  $http({
+    method: 'GET',
+    url: '/salarySearch'
+  }).then(function(response) {
+    $rootScope.salaryArray = response.data;
+    $rootScope.salaryArray.push( response.data );
+
+    // $rootScope.curatedReviewArray = response.data;
+    console.log('all reviews in search by salary ', $rootScope.salaryArray);
+  }, function myError (response) {
+    console.log(response.statusText);
+  }); //end of .then
+};
+// ------END OF SEARCH BY SALARY DESCENDING----------------------//
+
+$scope.leadershipSearch = function( ){
+  console.log( 'leadershipSearch clicked' );
+  $scope.justEnteredForm=false;
+  $scope.alltheReviewsForm=false;
+  $scope.onlyMyReviews=false;
+  $scope.topHalf=false;
+  $scope.salaryShow=false;
+  $scope.leadershipShow=true;
+
+  $http({
+    method: 'GET',
+    url: '/leadershipSearch'
+  }).then(function(response) {
+    $rootScope.leadershipArray = response.data;
+    // $rootScope.curatedReviewArray = response.data;
+    console.log('all reviews in search by leadership ', $rootScope.leadershipArray);
+  }, function myError (response) {
+    console.log(response.statusText);
+  });
+};
+
+// ------END OF SEARCH BY LEADERSHIP RATING DESCENDING---------------//
 
 $scope.filterFunction = function(element) {
      return element.company_name.match(/^Ma/) ? true : false;

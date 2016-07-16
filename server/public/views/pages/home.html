@@ -32,48 +32,21 @@
            <th><button type="button" class="btn btn-default" ng-click="submitReview();" name="button"> Submit Review </button></th>
          </tr>
       </div>
-      <!-- ^^^^^^^^^^^end of ng show top -->
-      <!-- <input type="text" name="name" id="searchedReview" value=""> -->
-      <!-- <button type="button" name="button" ng-click="curateReviews()"> Search </button> -->
+<!-- END OF NG SHOW TOP  -->
 
-<!-- TAKE THIS OUT UNTIL END OF SHOW BOTTOM IF XEDITABLE CAN WORK  -->
-      <!--beginning of ng-show bottom -->
-      <!-- <div>
-        <table ng-show='bottomHalf' >
-          <tr>
-            <th> Company Name in edit: </th>
-            <th> <input type="text" name="name" value="" ng-model="companyNameModel"> </th>
-          </tr>
-          <tr>
-            <th> Salary Rating: </th>
-            <th> <uib-rating ng-model="salaryModel" max="max" on-hover="hoveringOver(value)" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
-            <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar">{{percent}}%</span></th>
-          </tr>
-          <tr>
-            <th>Leadership Rating:</th>
-            <th><uib-rating ng-model="leadershipModel" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
-            <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar" >{{percent}}%</span></th>
-          </tr>
-          <tr>
-              <th> Review of company:</th>
-              <th><textarea rows="4" cols="50" name="review" value="" ng-model="reviewModel"></textarea></th>
-          <tr>
-           <th><button type="button" class="btn btn-default" ng-click="banananananana();" name="button">  Edit Review </button></th>
-         </tr>
-      </div> -->
-      <!--end of ng show bottom --->
-
-<!--- STOP TAKING SHIT OUT HERE ----------------->
+<!--- HERE ARE THE BUTTONS ----------------->
       <button class="btn btn-default" ng-click="showReviews()"> Show All Reviews </button>
       <button class="btn btn-default" ng-click="logout()"> Log Out </button>
       <button class="btn btn-default" ng-click="showMyReviews()"> Show My Reviews </button>
+      <button class="btn btn-default" ng-click="leadershipSearch()"> Search by Leadership </button>
+      <button class="btn btn-default" ng-click="salarySearch()"> Search by Salary </button>
         <div class="reviewsViewed">
           <form class="inline">
              <input ng-model="query" type="text"
                placeholder="Filter by Company Name" autofocus>
             </form>
 
-          <table cellpadding="30" id="displayReviews">
+          <table id="displayReviews">
             <tr>
             <th>Record</th>
             <th>Company Name </th>
@@ -93,7 +66,7 @@
             <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
             </tr>
           </div>
-          <!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
+  <!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
           <div>
             <tr ng-show="alltheReviewsForm" ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
               <th> {{record.id }} in allTheReviews </th>
@@ -118,6 +91,42 @@
               <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
               </tr>
             </div>
+
+            <div>
+              <tr ng-show="onlyMyReviews" ng-repeat = "record in myReviewArray" >
+                <th> {{ record.id }} in the showMyReviews </th>
+                <th> {{ record.company_name || 'empty' }} </th>
+                <th> {{ record.salary }} </th>
+                <th> {{ record.leadership}} </th>
+                <th> {{ record.review}} </th>
+              <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
+              <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
+              </tr>
+            </div>
+
+            <div>
+              <tr ng-show="salaryShow" ng-repeat = "record in salaryArray" >
+                <th> {{ record.id }} in the showMyReviews </th>
+                <th> {{ record.company_name || 'empty' }} </th>
+                <th> {{ record.salary }} </th>
+                <th> {{ record.leadership}} </th>
+                <th> {{ record.review}} </th>
+              <!-- <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
+              <!-- <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
+              </tr>
+            </div>
+            <div>
+              <tr ng-show="leadershipShow" ng-repeat = "record in leadershipArray" >
+                <th> {{ record.id }} in the showMyReviews </th>
+                <th> {{ record.company_name || 'empty' }} </th>
+                <th> {{ record.salary }} </th>
+                <th> {{ record.leadership}} </th>
+                <th> {{ record.review}} </th>
+              <!-- <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
+              <!-- <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
+              </tr>
+            </div>
+
                    <!-- <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
                      <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
                        save
