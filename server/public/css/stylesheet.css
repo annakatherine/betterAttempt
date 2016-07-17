@@ -1,61 +1,52 @@
+
 header{
   text-align: center;
   background-color: #2BBDED;
-  margin: 0px 0px 100px 0px;
+  margin: 0px 0px 0px 0px;
   padding: 30px 30px 30px 30px;
-  box-shadow: 10px 10px 5px #888888;
+  /*box-shadow: 10px 10px 5px #888888;*/
 }
-
 footer{
   text-align: center;
   background-color: #2BBDED;
   margin: 200px 0px 0px 0px;
   padding: 20px 30px 20px 30px;
-
-}
-h1 {
-  text-align: center;
-}
-#formTable{
-  /*background-color: red;*/
-}
-.top{
-  /*background-color: purple;*/
-}
-#displayReviews{
-  /*background-color: yellow;*/
-  padding: 10px 10px 10px 10px;
-
 }
 .navBar{
-  padding: 30px 30px 30px 30px;
+  /*padding: 30px 30px 30px 30px;*/
   background-color: dark blue;
   align-content: center;
-
 }
-.uvas{
-  align-content: center;
-  margins: 0px 30px 0px 80px;
-  padding: 10px 10px 10px 10px;
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /*background-color: #333;*/
 }
-.signUpForm{
-  align-content: center;
-}
-
-table, th{
-  padding: 10px 10px 10px 10px;
+li {
+    float: left;
 }
 
-.form-group{
-  /*background-color: green;*/
-  padding: 10px 10px 10px 10px;
-  align-content: center;
-
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    /*padding: 14px 16px;*/
+    /*padding: 5px 5px;*/
+    margin: 20px;
+    text-decoration: none;
 }
-.reviewsViewed th{
-  /*background-color: red;*/
+
+li a:hover {
+    background-color: #111;
+}
+
+.top{
+  background-color: gray;
+  padding: 20px 20px 20px 20px;
 }
 
 body{
   background-color: gray;
-};
+}

@@ -1,0 +1,22 @@
+<!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
+<div>
+<div ng-include="'/views/partials/searchNav.html'"></div>
+  <table ng-show="onlyMyReviews">
+    <tr>
+      <th>Record</th>
+      <th>Company Name </th>
+      <th>Salary Rating</th>
+      <th>Leadership Rating</th>
+      <th>Review</th>
+    </tr>
+    <tr ng-show="onlyMyReviews" ng-repeat = "record in myReviewArray" >
+      <th> {{ record.id }} in only my reviews </th>
+      <th> {{ record.company_name || 'empty' }} </th>
+      <th> {{ record.salary }} </th>
+      <th> {{ record.leadership}} </th>
+      <th> {{ record.review}} </th>
+      <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
+      <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
+    </tr>
+  </table>
+</div>

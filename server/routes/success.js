@@ -9,7 +9,6 @@ var bodyParser = require('body-parser');
 var connectionString = 'postgres://localhost:5432/primerDB';
 var router = express.Router();
 
-
 //serverside post to add a review
 router.post('/addReview', function( req, res, next ){
   console.log( 'inside router.post for reviews', req.user );
@@ -44,8 +43,6 @@ router.post('/addReview', function( req, res, next ){
         });//end of pg.connect
       });//end of router.add post
 // ---------END OF ADD REVIEW POST----------------------//
-
-
 
 //serverside delete review function
 router.delete('/deleteReview/:id', function( req, res ){

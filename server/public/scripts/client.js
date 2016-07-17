@@ -18,6 +18,14 @@ myApp.config(['$routeProvider', function($routeProvider) {
 			templateUrl: '/views/pages/other.html',
 			controller: "successController"
 		})
+		.when('/allReviews', {
+			templateUrl: '/views/pages/allReviews.html',
+			controller: "allReviewsController"
+		})
+		.when('/myReviews', {
+			templateUrl: '/views/pages/myReviews.html',
+			controller: "myReviewsController"
+		})
 		.otherwise({
 			redirectTo: 'login'
 		});

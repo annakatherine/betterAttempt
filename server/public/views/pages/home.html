@@ -1,16 +1,13 @@
-
 <html ng-app="myApp">
 <body>
   <div ng-controller='homeController'>
+    <h1 id="welcome" class="lead"> Welcome, {{userName}}! </h1>
 
   <div class="container">
-    <h1 id="welcome" class="lead"> Welcome, {{userName}} {{user_id}}! </h1>
-    <p></p>
-    <h1> Hello </h1>
-    <h3>Please tell us about your company: </h3>
-
-      <div  class='top'>
+    <div class="searchNav" ng-include="'/views/partials/searchNav.html'"></div></div>
+      <div class='top'>
         <table ng-show='topHalf' id="formTable">
+          <h3>Please tell us about your company: </h3>
           <tr>
             <th> Company Name in submit: </th>
             <th> <input type="text" name="name" value="" ng-model="companyNameModel"> </th>
@@ -22,7 +19,7 @@
           </tr>
           <tr>
             <th>Leadership Rating:</th>
-            <th><uib-rating ng-model="leadershipModel" max="max" read-only="isReadonly" on-hover="hoveringOver(value)" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+            <th><uib-rating ng-model="leadershipModel" max="max" on-hover="hoveringOver(value)" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
             <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar" >{{percent}}%</span></th>
           </tr>
           <tr>
@@ -35,114 +32,77 @@
 <!-- END OF NG SHOW TOP  -->
 
 <!--- HERE ARE THE BUTTONS ----------------->
-      <button class="btn btn-default" ng-click="showReviews()"> Show All Reviews </button>
-      <button class="btn btn-default" ng-click="logout()"> Log Out </button>
-      <button class="btn btn-default" ng-click="showMyReviews()"> Show My Reviews </button>
-      <button class="btn btn-default" ng-click="leadershipSearch()"> Search by Leadership </button>
-      <button class="btn btn-default" ng-click="salarySearch()"> Search by Salary </button>
+      <!-- <button class="btn btn-default" ng-click="showReviews()"> Show All Reviews </button> -->
+      <!-- <button class="btn btn-default" ng-click="logout()"> Log Out </button> -->
+      <!-- <button class="btn btn-default" ng-click="search()"> Search Glassdoor </button> -->
+      <!-- <button class="btn btn-default" ng-click="leadershipSearch()"> Search by Leadership </button>
+      <button class="btn btn-default" ng-click="salarySearch()"> Search by Salary </button> -->
         <div class="reviewsViewed">
           <form class="inline">
              <input ng-model="query" type="text"
-               placeholder="Filter by Company Name" autofocus>
+               placeholder="Search for keyword" autofocus>
             </form>
 
           <table id="displayReviews">
-            <tr>
-            <th>Record</th>
-            <th>Company Name </th>
-            <th>Salary Rating</th>
-            <th>Leadership Rating</th>
-            <th>Review</th>
-            </tr>
+<!-- THIS IS WHERE THE ORIGINAL SHOW IS -->
+
+
 <!-- THIS IS THE ONE YOU WANT TO SHOW TO DISPLAY THE REVIEW THAT THE USER JUST ENTERED -->
-            <div>
-            <tr ng-repeat = "record in reviewArray" ng-show="justEnteredForm">
-              <th> {{record.id }} in the justEnteredForm </th>
-              <th> {{ record.company_name || 'empty' }} </th>
-              <th> {{ record.salary }} </th>
-              <th> {{record.leadership}} </th>
-              <th> {{record.review}} </th>
-            <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
-            <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
-            </tr>
-          </div>
-  <!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
-          <div>
-            <tr ng-show="alltheReviewsForm" ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
-              <th> {{record.id }} in allTheReviews </th>
-              <th> {{record.company_name }} </th>
-              <th> {{ record.salary }} </th>
-              <th> {{record.leadership}} </th>
-              <th> {{record.review}} </th>
-            <!-- <th> <input type="button" value="Delete" class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
-            <!-- <th> <input type="button" value="Edit" class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
-            </tr>
-          </div>
-            <!-- form -->
-            <!-- <tr ng-show="editableForm"> -->
-            <div>
-              <tr ng-show="onlyMyReviews" ng-repeat = "record in myReviewArray" >
-                <th> {{ record.id }} in the showMyReviews </th>
-                <th> {{ record.company_name || 'empty' }} </th>
-                <th> {{ record.salary }} </th>
-                <th> {{ record.leadership}} </th>
-                <th> {{ record.review}} </th>
-              <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
-              <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
-              </tr>
-            </div>
+<div>
+  <tr ng-show="justEnteredForm">
+    <th>Record</th>
+    <th>Company Name </th>
+    <th>Salary Rating</th>
+    <th>Leadership Rating</th>
+    <th>Review</th>
+  </tr>
+  <tr ng-show="justEnteredForm" ng-repeat = "record in justEnteredArray" >
+    <th> {{record.id}} in reviewarray just entered  </th>
+    <th> {{record.company_name}} </th>
+    <th> {{record.salary}} </th>
+    <th> {{record.leadership}} </th>
+    <th> {{record.review}} </th>
+    <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
+    <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
+  </tr>
+</div>
 
-            <div>
-              <tr ng-show="onlyMyReviews" ng-repeat = "record in myReviewArray" >
-                <th> {{ record.id }} in the showMyReviews </th>
-                <th> {{ record.company_name || 'empty' }} </th>
-                <th> {{ record.salary }} </th>
-                <th> {{ record.leadership}} </th>
-                <th> {{ record.review}} </th>
-              <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
-              <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
-              </tr>
-            </div>
+<div>
+  <tr ng-show="salaryShow">
+    <th>Record</th>
+    <th>Company Name </th>
+    <th>Salary Rating</th>
+    <th>Leadership Rating</th>
+    <th>Review</th>
+  </tr>
+  <tr ng-show="salaryShow" ng-repeat = "record in salaryArray" >
+    <th> {{ record.id }} in salary show </th>
+    <th> {{ record.company_name }} </th>
+    <th> {{ record.salary }} </th>
+    <th> {{ record.leadership}} </th>
+    <th> {{ record.review}} </th>
+  </tr>
+</div>
 
-            <div>
-              <tr ng-show="salaryShow" ng-repeat = "record in salaryArray" >
-                <th> {{ record.id }} in the showMyReviews </th>
-                <th> {{ record.company_name || 'empty' }} </th>
-                <th> {{ record.salary }} </th>
-                <th> {{ record.leadership}} </th>
-                <th> {{ record.review}} </th>
-              <!-- <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
-              <!-- <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
-              </tr>
-            </div>
-            <div>
-              <tr ng-show="leadershipShow" ng-repeat = "record in leadershipArray" >
-                <th> {{ record.id }} in the showMyReviews </th>
-                <th> {{ record.company_name || 'empty' }} </th>
-                <th> {{ record.salary }} </th>
-                <th> {{ record.leadership}} </th>
-                <th> {{ record.review}} </th>
-              <!-- <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
-              <!-- <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
-              </tr>
-            </div>
+<div>
+  <tr ng-show="leadershipShow">
+   <th>Record</th>
+   <th>Company Name </th>
+   <th>Salary Rating</th>
+   <th>Leadership Rating</th>
+   <th>Review</th>
+  </tr>
+  <tr ng-show="leadershipShow" ng-repeat = "record in leadershipArray" >
+   <th> {{ record.id }} in leadership show  </th>
+   <th> {{ record.company_name }} </th>
+   <th> {{ record.salary }} </th>
+   <th> {{ record.leadership}} </th>
+   <th> {{ record.review}} </th>
+  </tr>
+</div>
+</table>
 
-                   <!-- <form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
-                     <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                       save
-                     </button>
-                     <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                       cancel
-                     </button>
-                   </form>
-                   <div class="buttons" ng-show="!rowform.$visible">
-                     <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-                     <button class="btn btn-danger" ng-click="removeUser($index)">del</button>
-                   </div> -->
-            <!-- </tr> -->
-
-           </table>
-        </div>
+</div>
 <!-- end of ng show bottom  -->
 </div>
 </div>

@@ -1,0 +1,26 @@
+<!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
+<div>
+<div ng-include="'/views/partials/searchNav.html'"></div>
+  <table>
+    <tr ng-show="alltheReviewsForm">
+    <form class="inline">
+      <input ng-model="query" type="text"
+      placeholder="Search for keyword" autofocus>
+    </form>
+    </tr>
+    <tr ng-show="alltheReviewsForm">
+      <th>Record</th>
+      <th>Company Name </th>
+      <th>Salary Rating</th>
+      <th>Leadership Rating</th>
+      <th>Review</th>
+    </tr>
+    <tr ng-show="alltheReviewsForm" ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
+      <th> {{record.id }} In reviewArray allthereviews </th>
+      <th> {{record.company_name }} </th>
+      <th> {{record.salary}} </th>
+      <th> {{record.leadership}} </th>
+      <th> {{record.review}} </th>
+    </tr>
+  </table>
+</div>

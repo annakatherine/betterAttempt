@@ -7,9 +7,11 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
   $rootScope.myReviewArray = [];
   $rootScope.salaryArray = [];
   $rootScope.leadershipArray = [];
+  $rootScope.justEnteredArray = [];
+  $rootScope.glassdoorArray = [];
 
   //toggles the views
-  $scope.justEnteredForm=true;
+  $scope.justEnteredForm=false;
   $scope.alltheReviewsForm=false;
   $scope.editableForm=false;
   $scope.topHalf=true;
@@ -70,12 +72,12 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
       url: '/addReview',
       data: reviewObject
     }).then(function(response){
-      $scope.reviewsAll = response.data;
+      $rootScope.justEnteredArray = response.data;
       console.log('success: ', response.data);
 
 //adding review upon return from the db to the array for displaying on DOM
-      $scope.reviewArray.push( response.data );
-      console.log('reviewArray: ', $scope.reviewArray );
+      // $rootScope.justEnteredArray.push( response.data );
+      console.log('reviewArray: ', $rootScope.justEnteredArray );
     });
 
 //clears input fields for the next submission
@@ -98,76 +100,30 @@ $scope.hoveringOver = function(value) {
 };
 //--------------END OF STARS ALIGNING-----------------------------//
 
-//click function to delete review
-$scope.deleteReview = function(recordID){
-    event.preventDefault();
-     console.log("In the delete");
-     console.log( 'recordID: ', recordID);
-     var sendID = {id: recordID};
-
-//sending delete request to DB
-     $http({
-       method: 'DELETE',
-       url: '/deleteReview/' + recordID,
-       headers: {'Content-Type': 'application/json;charset=utf-8'}
-     }).then(function(){
-
-       //takes deleted review off the DOM and shows new list
-       $scope.reviewArray.splice( sendID, 1 );
-       $scope.showMyReviews();
-       console.log( 'at the end of delete' );
-     });//end of .then
-   };
-
-//--------------------end of deleteReview-------------------///
-
 //this will query the db to return all reviews in the system in no order.
-    $scope.showReviews = function() {
-      console.log( 'showReviews clicked' );
-      $scope.justEnteredForm=false;
-      $scope.alltheReviewsForm=true;
-      $scope.onlyMyReviews=false;
-      $scope.topHalf=true;
-      $scope.salaryShow=false;
-      $scope.leadershipShow=false;
-
-
-      $http({
-        method: 'GET',
-        url: '/getReviews'
-      }).then(function(response) {
-        $rootScope.reviewArray = response.data;
-        // $rootScope.curatedReviewArray = response.data;
-        console.log('all reviews: ', response.data);
-      }, function myError (response) {
-        console.log(response.statusText);
-      });
-    }; // end getReviews
+    // $scope.showReviews = function() {
+    //   console.log( 'showReviews clicked' );
+    //   $scope.justEnteredForm=false;
+    //   $scope.alltheReviewsForm=true;
+    //   $scope.onlyMyReviews=false;
+    //   $scope.topHalf=false;
+    //   $scope.salaryShow=false;
+    //   $scope.leadershipShow=false;
+    //
+    //   $http({
+    //     method: 'GET',
+    //     url: '/getReviews'
+    //   }).then(function(response) {
+    //     $rootScope.reviewArray = response.data;
+    //     // $rootScope.curatedReviewArray = response.data;
+    //     console.log('all reviews: ', response.data);
+    //   }, function myError (response) {
+    //     console.log(response.statusText);
+    //   });
+    // }; // end getReviews
 
 //------------END OF SHOW ALL UNORDERED REVIEWS----------------------\\
 
-//this will show only the reviews entered by the user currently logged in.
-$scope.showMyReviews = function( ){
-  console.log( 'showMyReviews clicked' );
-  $scope.justEnteredForm=false;
-  $scope.alltheReviewsForm=false;
-  $scope.onlyMyReviews=true;
-  $scope.topHalf=false;
-  $scope.salaryShow=false;
-  $scope.leadershipShow=false;
-
-
-  $http({
-    method: 'GET',
-    url: '/showUserReviews'
-  }).then(function(response) {
-    $rootScope.myReviewArray = response.data;
-    // $rootScope.curatedReviewArray = response.data;
-    console.log('all reviews in showMyReviews ', $rootScope.myReviewArray);
-  }, function myError (response) {
-    console.log(response.statusText);
-  });
-};
 
     ///if you want to display upon load later this spot worksvvv---//
     // $scope.showReviews();
@@ -181,10 +137,8 @@ $scope.salarySearch = function( ){
   $scope.alltheReviewsForm=false;
   $scope.onlyMyReviews=false;
   $scope.topHalf=false;
-  $scope.salaryShow=true;
+  $scope.salaryShow=true; ////
   $scope.leadershipShow=false;
-
-
 
 
   $http({
@@ -209,7 +163,7 @@ $scope.leadershipSearch = function( ){
   $scope.onlyMyReviews=false;
   $scope.topHalf=false;
   $scope.salaryShow=false;
-  $scope.leadershipShow=true;
+  $scope.leadershipShow=true; ////
 
   $http({
     method: 'GET',
@@ -228,6 +182,11 @@ $scope.leadershipSearch = function( ){
 $scope.filterFunction = function(element) {
      return element.company_name.match(/^Ma/) ? true : false;
    };
+
+$scope.filterKeyword = function(element) {
+     return element.review.match(/^Ma/) ? true : false;
+    };
+
 
 }]);///end of home controller
 //
@@ -264,41 +223,41 @@ $scope.filterFunction = function(element) {
 // console.log( 'in resultsArray: ', $scope.resultsArray );
 //
  //end then after API call
-
+//
 // $scope.search = function(){
-  // console.log( 'search clicked' );
-  // $scope.searchedJobs = [];
-  //
-  // var searchCriteria = $scope.searched;
-  // alert( searchCriteria );
-
-  // var glassdoorAPI = 'http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=75608&t.k=jtQTmCQF0QA&action=employers&q=technology&l=minnesota';
-      // $http({
-      //       method: 'POST',
-      //       url: '/searchJobs',
-      //       dataType: 'jsonp',
-      //       headers: { 'Content-Type':'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8081' }
-      //     }).then( function( response ){
-            // log the response from the http call
-            // console.log( 'retrieved info for ', response.data.searchCriteria);
-            // console.log( 'log', response.data.response.employers[0].name);
-        //     var searchResults={
-        //       Name: response.data.response.employers[0].name,
-        //       Review: response.data.response.employers[0].review,
-        //       }; // end object
-        //     console.log( 'jobObject: ', searchResults );
-        //
-        // for (var i = 0; i < response.data.response.employers.length; i++) {
-        //     console.log( 'inside the for loop of death and destruction' );
-        //     if( searchResults === searchResults.name){
-        //       console.log('searchResults: ' + searchResults.name );
-        //     }
-        // }
+//   console.log( 'search clicked' );
+//   $scope.searchedJobs = [];
+//
+//   var searchCriteria = $scope.searched;
+//   alert( searchCriteria );
+//
+//   var glassdoorAPI = 'http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=75608&t.k=jtQTmCQF0QA&action=employers&q=technology&l=minnesota';
+//       $http({
+//             method: 'POST',
+//             url: '/searchJobs',
+//             dataType: 'jsonp',
+//             headers: { 'Content-Type':'application/json', 'Access-Control-Allow-Origin': 'http://localhost:8081' }
+//           }).then( function( response ){
+//             // log the response from the http call
+//             console.log( 'retrieved info for ', response.data.searchCriteria);
+//             console.log( 'log', response.data.response.employers[0].name);
+//             var searchResults={
+//               Name: response.data.response.employers[0].name,
+//               Review: response.data.response.employers[0].review,
+//               }; // end object
+//             console.log( 'jobObject: ', searchResults );
+//
+//         for (var i = 0; i < response.data.response.employers.length; i++) {
+//             console.log( 'inside the for loop of death and destruction' );
+//             if( searchResults === searchResults.name){
+//               console.log('searchResults: ' + searchResults.name );
+//             }
+//         }
 //           $scope.searchedJobs.push( searchCriteria );
 //           console.log( 'searchedJobs:' + $scope.searchedJobs  );
 //
 //    });
-//
+// 
 // };
 //
 // $scope.search = function(){

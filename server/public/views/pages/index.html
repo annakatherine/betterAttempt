@@ -17,15 +17,22 @@
     <script type="text/javascript" src="/scripts/controllers/homeController.js"></script>
     <script type="text/javascript" src="/scripts/controllers/successController.js"></script>
     <script type="text/javascript" src="/scripts/controllers/loginController.js"></script>
+    <script type="text/javascript" src="/scripts/controllers/allReviewsController.js"></script>
+    <script type="text/javascript" src="/scripts/controllers/myReviewsController.js"></script>
+    <script type="text/javascript" src="/scripts/controllers/glassdoorController.js"></script>
 </head>
 
 <body >
   <header>
-       <h1>Review Your Job</h1>
-       <div ng-include="'/views/partials/nav.html'"></div>
-     </header>
+    <h1>Jobs For All</h1>
 
-   <main ng-view></main>
+    <div class="navWrap">
+      <div class = "navBar" ng-include="'/views/partials/nav.html'"></div>
+    </div>
+
+  </header>
+
+    <main ng-view></main>
 
  <footer>
    <h4>I am the footer. </h4>
