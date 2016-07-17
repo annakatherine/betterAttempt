@@ -1,8 +1,29 @@
 
 myApp.controller( 'myReviewsController', ['$scope', '$http', '$location', '$rootScope', function( $scope, $http, $location, $rootScope ){
   console.log( 'loaded myReviewsController' );
+
   //call arrays for displaying reviews on the DOM
   $rootScope.myReviewArray = [];
+
+
+  $scope.user_id= {};
+  getUser();
+
+  function getUser() {
+  $http.get('/router').then(function(response) {
+        if(response.data.username) {
+            $scope.userName = response.data.username;
+            $scope.user_id = response.data._id;
+            console.log('User Data: ', $scope.userName);
+            $rootScope.username = $scope.userName;
+            console.log('User Data: ', $rootScope.username);
+
+
+        } else {
+            $location.path("/login");
+        }
+    });
+  }
 
     //-vvvvvNO IDEA WHERE THIS CAME FROM. WHAT DOES IT DO? ----------
     $scope.searchName = '';

@@ -13,16 +13,18 @@ var router = express.Router();
 router.post('/addReview', function( req, res, next ){
   console.log( 'inside router.post for reviews', req.user );
     var reviewSaved = {
+      author: req.user.username,
       company_name: req.body.name,
       salary: req.body.salary,
       leadership: req.body.leadership,
       review: req.body.review
     };
     console.log('new review:', reviewSaved);
+    console.log('author', reviewSaved.author);
 
     pg.connect(connectionString, function(err, client, done) {
-      var queriedReview = client.query("INSERT INTO jobreviews ( company_name, salary, leadership, review, reviewer_id  ) VALUES ( $1, $2, $3, $4, $5 ) RETURNING id",
-        [ reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review, req.user.id ],
+      var queriedReview = client.query("INSERT INTO jobreviews ( author, company_name, salary, leadership, review, reviewer_id  ) VALUES ( $1, $2, $3, $4, $5, $6 ) RETURNING id",
+        [ reviewSaved.author, reviewSaved.company_name, reviewSaved.salary, reviewSaved.leadership, reviewSaved.review, req.user.id ],
           function (err, result) {
             if(err) {
               console.log("Error inserting data: ", err);

@@ -37,27 +37,23 @@
       <!-- <button class="btn btn-default" ng-click="search()"> Search Glassdoor </button> -->
       <!-- <button class="btn btn-default" ng-click="leadershipSearch()"> Search by Leadership </button>
       <button class="btn btn-default" ng-click="salarySearch()"> Search by Salary </button> -->
-        <div class="reviewsViewed">
-          <form class="inline">
-             <input ng-model="query" type="text"
-               placeholder="Search for keyword" autofocus>
-            </form>
-          </div>
-          <!-- <table id="displayReviews"> -->
+
+
 <!-- THIS IS WHERE THE ORIGINAL SHOW IS -->
 
 
 <!-- THIS IS THE ONE YOU WANT TO SHOW TO DISPLAY THE REVIEW THAT THE USER JUST ENTERED -->
-<div>
-  <tr ng-show="justEnteredForm" ng-repeat = "record in reviewArray" >
-    <th>Record</th>
+<div class = "reviewDisplay">
+  <table ng-show="justEnteredForm">
+    <tr ng-show="justEnteredForm" ng-repeat = "record in reviewArray" >
+    <th>Reviewer </th>
     <th>Company Name </th>
     <th>Salary Rating</th>
     <th>Leadership Rating</th>
     <th>Review</th>
   </tr>
   <tr ng-show="justEnteredForm" >
-    <th> {{record.id}} </th>
+    <th> {{record.author}} </th>
     <th> {{record.company_name}} </th>
     <th> {{record.salary}} </th>
     <th> {{record.leadership}} </th>
@@ -65,19 +61,28 @@
     <!-- <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
     <!-- <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
   </tr>
+  <tr>
+    <div class="reviewsViewed">
+      <form class="inline">
+         <input ng-model="query" type="text"
+           placeholder="Search for keyword" autofocus>
+        </form>
+      </div>
+  </tr>
+</table>
 </div>
 
 <div>
-  <table>
+  <table ng-show="salaryShow">
     <tr ng-show="salaryShow">
-    <th>Record</th>
+    <th>Reviewer</th>
     <th>Company Name </th>
     <th>Salary Rating</th>
     <th>Leadership Rating</th>
     <th>Review</th>
   </tr>
   <tr ng-show="salaryShow" ng-repeat = "record in salaryArray" >
-    <th> {{ record.id }} in salary show </th>
+    <th> {{ record.author }} in salary show </th>
     <th> {{ record.company_name }} </th>
     <th> {{ record.salary }} </th>
     <th> {{ record.leadership}} </th>
@@ -86,17 +91,18 @@
 </table>
 </div>
 
+<!-- -->
 <div>
   <table>
   <tr ng-show="leadershipShow">
-   <th>Record</th>
+   <th>Reviewer</th>
    <th>Company Name </th>
    <th>Salary Rating</th>
    <th>Leadership Rating</th>
    <th>Review</th>
   </tr>
   <tr ng-show="leadershipShow" ng-repeat = "record in leadershipArray" >
-   <th> {{ record.id }} in leadership show </th>
+   <th> {{ record.author }} in leadership show </th>
    <th> {{ record.company_name }} </th>
    <th> {{ record.salary }} </th>
    <th> {{ record.leadership}} </th>

@@ -1,21 +1,23 @@
-<!-- THIS IS THE ONE YOU WANT TO SHOW TO MAKE THE DISPLAY THING WORK -->
-<div class = "reviewDisplay">
+<body ng-show="leadershipShow">
+<div>
 <div ng-include="'/views/partials/searchNav.html'"></div>
   <table>
-    <tr ng-show="alltheReviewsForm">
+    <tr>
     <form class="inline">
       <input ng-model="query" type="text"
       placeholder="Search for keyword" autofocus>
     </form>
     </tr>
-    <tr ng-show="alltheReviewsForm">
+  </table>
+  <table >
+    <tr>
       <th>Reviewer</th>
       <th>Company Name </th>
       <th>Salary Rating</th>
       <th>Leadership Rating</th>
       <th>Review</th>
     </tr>
-    <tr ng-show="alltheReviewsForm" ng-repeat = "record in reviewArray| filter:query | orderBy: 'company_name'">
+    <tr ng-repeat = "record in leadershipArray | filter:query ">
       <th> {{record.author}} </th>
       <th> {{record.company_name }} </th>
       <th> {{record.salary}} </th>
@@ -24,3 +26,4 @@
     </tr>
   </table>
 </div>
+</body>

@@ -2,8 +2,8 @@
 myApp.controller( 'allReviewsController', ['$scope', '$http', '$location', '$rootScope', function( $scope, $http, $location, $rootScope ){
   console.log( 'loaded allReviewsController' );
 
-  //call arrays for displaying reviews on the DOM
-  $rootScope.reviewArray = [];
+//call arrays for displaying reviews on the DOM
+$rootScope.reviewArray = [];
 
 //this will query the db to return all reviews in the system in no order.
 $scope.showReviews = function() {

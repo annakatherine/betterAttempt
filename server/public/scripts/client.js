@@ -14,6 +14,14 @@ myApp.config(['$routeProvider', function($routeProvider) {
 			templateUrl: '/views/pages/home.html',
 			controller: "homeController"
 		})
+		.when('/leadership', {
+			templateUrl: '/views/pages/leadership.html',
+			controller: "leadershipController"
+		})
+		.when('/salary', {
+			templateUrl: '/views/pages/salary.html',
+			controller: "salaryController"
+		})
 		.when('/other', {
 			templateUrl: '/views/pages/other.html',
 			controller: "successController"

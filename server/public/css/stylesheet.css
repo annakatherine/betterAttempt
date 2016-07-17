@@ -46,11 +46,22 @@ li a:hover {
 }
 
 .top{
-  background-color: gray;
+  background-color: yellow;
   padding: 20px 20px 20px 20px;
 }
+.reviewDisplay{
+  /*background-color: yellow;*/
+  padding: 20px 20px 20px 20px;
 
+}
+
+table th {
+  padding: 5px 25px 5px 15px;
+  margin: 15px 15px 15px 15px;
+}
 body{
   font-family: 'Poiret One', cursive;
   background-color: gray;
+  /*padding: 30px 40px 20px 40px;*/
+
 }

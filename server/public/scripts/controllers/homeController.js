@@ -6,10 +6,9 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
   $rootScope.reviewArray = [];
   $rootScope.myReviewArray = [];
   $rootScope.salaryArray = [];
-  $rootScope.leadershipArray = [];
   $rootScope.justEnteredArray = [];
   $rootScope.glassdoorArray = [];
-
+  $rootScope.username = '';
   //toggles the views
   $scope.justEnteredForm=false;
   $scope.alltheReviewsForm=false;
@@ -30,7 +29,11 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
           if(response.data.username) {
               $scope.userName = response.data.username;
               $scope.user_id = response.data._id;
-              console.log('User Data: ', $scope.userName, response.data._id);
+              console.log('User Data: ', $scope.userName);
+              $rootScope.username = $scope.userName;
+              console.log('User Data: ', $rootScope.username);
+
+
           } else {
               $location.path("/login");
           }
@@ -56,7 +59,6 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
     $scope.leadershipShow=false;
 
 
-
     //declare an empty array to hold review details for viewing
     var reviewObject = {
       name: $scope.companyNameModel,
@@ -65,6 +67,8 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
       review: $scope.reviewModel,
       // username: $scope.username
   };
+  console.log( 'user: ', $rootScope.username);
+
     console.log( reviewObject.name + ' ' + reviewObject.salary,
     reviewObject.leadership + ' ' + reviewObject.review, ' ', reviewObject.userID );
 //sending review to the DB
@@ -101,84 +105,12 @@ $scope.hoveringOver = function(value) {
 };
 //--------------END OF STARS ALIGNING-----------------------------//
 
-//this will query the db to return all reviews in the system in no order.
-    // $scope.showReviews = function() {
-    //   console.log( 'showReviews clicked' );
-    //   $scope.justEnteredForm=false;
-    //   $scope.alltheReviewsForm=true;
-    //   $scope.onlyMyReviews=false;
-    //   $scope.topHalf=false;
-    //   $scope.salaryShow=false;
-    //   $scope.leadershipShow=false;
-    //
-    //   $http({
-    //     method: 'GET',
-    //     url: '/getReviews'
-    //   }).then(function(response) {
-    //     $rootScope.reviewArray = response.data;
-    //     // $rootScope.curatedReviewArray = response.data;
-    //     console.log('all reviews: ', response.data);
-    //   }, function myError (response) {
-    //     console.log(response.statusText);
-    //   });
-    // }; // end getReviews
-
-//------------END OF SHOW ALL UNORDERED REVIEWS----------------------\\
-
-
-    ///if you want to display upon load later this spot worksvvv---//
-    // $scope.showReviews();
+//------------UNORDERED REVIEWS LOGIC IN allReviewsController-------------//
+//------------USER SPECIFIC REVIEWS LOGIC IN myReviewsController-----------//
 
 //---------END OF SHOW BY USER REVIEWS-----------------------------///////
 
-//queries the db and returns in order of salary best to worst
-$scope.salarySearch = function( ){
-  console.log( 'salarySearch clicked' );
-  $scope.justEnteredForm=false;
-  $scope.alltheReviewsForm=false;
-  $scope.onlyMyReviews=false;
-  $scope.topHalf=false;
-  $scope.salaryShow=true; ////
-  $scope.leadershipShow=false;
-
-
-  $http({
-    method: 'GET',
-    url: '/salarySearch'
-  }).then(function(response) {
-    $rootScope.salaryArray = response.data;
-    $rootScope.salaryArray.push( response.data );
-
-    // $rootScope.curatedReviewArray = response.data;
-    console.log('all reviews in search by salary ', $rootScope.salaryArray);
-  }, function myError (response) {
-    console.log(response.statusText);
-  }); //end of .then
-};
-// ------END OF SEARCH BY SALARY DESCENDING----------------------//
-
-$scope.leadershipSearch = function( ){
-  console.log( 'leadershipSearch clicked' );
-  $scope.justEnteredForm=false;
-  $scope.alltheReviewsForm=false;
-  $scope.onlyMyReviews=false;
-  $scope.topHalf=false;
-  $scope.salaryShow=false;
-  $scope.leadershipShow=true; ////
-
-  $http({
-    method: 'GET',
-    url: '/leadershipSearch'
-  }).then(function(response) {
-    $rootScope.leadershipArray = response.data;
-    // $rootScope.curatedReviewArray = response.data;
-    console.log('all reviews in search by leadership ', $rootScope.leadershipArray);
-  }, function myError (response) {
-    console.log(response.statusText);
-  });
-};
-
-// ------END OF SEARCH BY LEADERSHIP RATING DESCENDING---------------//
+// --THE LEADERSHIP LOGIC MOVED TO LEADERSHIPCONTROLLER.JS-------//
 
 $scope.filterFunction = function(element) {
      return element.company_name.match(/^Ma/) ? true : false;
