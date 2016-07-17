@@ -56,6 +56,7 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
     $scope.leadershipShow=false;
 
 
+
     //declare an empty array to hold review details for viewing
     var reviewObject = {
       name: $scope.companyNameModel,
@@ -72,12 +73,12 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
       url: '/addReview',
       data: reviewObject
     }).then(function(response){
-      $rootScope.justEnteredArray = response.data;
+      $rootScope.reviewArray = response.data;
       console.log('success: ', response.data);
 
 //adding review upon return from the db to the array for displaying on DOM
-      // $rootScope.justEnteredArray.push( response.data );
-      console.log('reviewArray: ', $rootScope.justEnteredArray );
+      // $scope.justEnteredArray.push( response.data );
+      console.log('reviewArray: ', $rootScope.reviewArray );
     });
 
 //clears input fields for the next submission
@@ -257,7 +258,7 @@ $scope.filterKeyword = function(element) {
 //           console.log( 'searchedJobs:' + $scope.searchedJobs  );
 //
 //    });
-// 
+//
 // };
 //
 // $scope.search = function(){

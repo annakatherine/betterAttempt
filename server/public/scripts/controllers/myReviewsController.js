@@ -50,7 +50,7 @@ $scope.showMyReviews();
        }).then(function(){
 
          //takes deleted review off the DOM and shows new list
-         $scope.reviewArray.splice( sendID, 1 );
+         $rootScope.reviewArray.splice( sendID, 1 );
          $scope.showMyReviews();
          console.log( 'at the end of delete' );
        });//end of .then

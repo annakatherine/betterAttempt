@@ -42,33 +42,34 @@
              <input ng-model="query" type="text"
                placeholder="Search for keyword" autofocus>
             </form>
-
-          <table id="displayReviews">
+          </div>
+          <!-- <table id="displayReviews"> -->
 <!-- THIS IS WHERE THE ORIGINAL SHOW IS -->
 
 
 <!-- THIS IS THE ONE YOU WANT TO SHOW TO DISPLAY THE REVIEW THAT THE USER JUST ENTERED -->
 <div>
-  <tr ng-show="justEnteredForm">
+  <tr ng-show="justEnteredForm" ng-repeat = "record in reviewArray" >
     <th>Record</th>
     <th>Company Name </th>
     <th>Salary Rating</th>
     <th>Leadership Rating</th>
     <th>Review</th>
   </tr>
-  <tr ng-show="justEnteredForm" ng-repeat = "record in justEnteredArray" >
-    <th> {{record.id}} in reviewarray just entered  </th>
+  <tr ng-show="justEnteredForm" >
+    <th> {{record.id}} </th>
     <th> {{record.company_name}} </th>
     <th> {{record.salary}} </th>
     <th> {{record.leadership}} </th>
     <th> {{record.review}} </th>
-    <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th>
-    <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th>
+    <!-- <th> <input type="button" value="Delete"  class="btn btn-primary" ng-click = "deleteReview(record.id)"/> </th> -->
+    <!-- <th> <input type="button" value="Edit"  class="btn btn-primary" ng-click = "editReview(record.id);"/> </th> -->
   </tr>
 </div>
 
 <div>
-  <tr ng-show="salaryShow">
+  <table>
+    <tr ng-show="salaryShow">
     <th>Record</th>
     <th>Company Name </th>
     <th>Salary Rating</th>
@@ -82,9 +83,11 @@
     <th> {{ record.leadership}} </th>
     <th> {{ record.review}} </th>
   </tr>
+</table>
 </div>
 
 <div>
+  <table>
   <tr ng-show="leadershipShow">
    <th>Record</th>
    <th>Company Name </th>
@@ -93,18 +96,15 @@
    <th>Review</th>
   </tr>
   <tr ng-show="leadershipShow" ng-repeat = "record in leadershipArray" >
-   <th> {{ record.id }} in leadership show  </th>
+   <th> {{ record.id }} in leadership show </th>
    <th> {{ record.company_name }} </th>
    <th> {{ record.salary }} </th>
    <th> {{ record.leadership}} </th>
    <th> {{ record.review}} </th>
   </tr>
-</div>
 </table>
+</div>
 
-</div>
-<!-- end of ng show bottom  -->
-</div>
 </div>
 <!-- </div> -->
 </body>

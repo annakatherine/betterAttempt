@@ -1,5 +1,6 @@
 
 header{
+  font-family: 'Poiret One', cursive;
   text-align: center;
   background-color: #2BBDED;
   margin: 0px 0px 0px 0px;
@@ -7,6 +8,7 @@ header{
   /*box-shadow: 10px 10px 5px #888888;*/
 }
 footer{
+  font-family: 'Poiret One', cursive;
   text-align: center;
   background-color: #2BBDED;
   margin: 200px 0px 0px 0px;
@@ -25,6 +27,7 @@ ul {
     /*background-color: #333;*/
 }
 li {
+    font-family: 'Poiret One', cursive;
     float: left;
 }
 
@@ -48,5 +51,6 @@ li a:hover {
 }
 
 body{
+  font-family: 'Poiret One', cursive;
   background-color: gray;
 }
