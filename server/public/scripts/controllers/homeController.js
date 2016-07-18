@@ -77,12 +77,12 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
       url: '/addReview',
       data: reviewObject
     }).then(function(response){
-      $rootScope.reviewArray = response.data;
+      $rootScope.justEnteredArray = response.data;
       console.log('success: ', response.data);
 
 //adding review upon return from the db to the array for displaying on DOM
       // $scope.justEnteredArray.push( response.data );
-      console.log('reviewArray: ', $rootScope.reviewArray );
+      console.log('justEnteredArray: ', $rootScope.justEnteredArray );
     });
 
 //clears input fields for the next submission
