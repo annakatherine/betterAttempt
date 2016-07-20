@@ -38,6 +38,7 @@
   <!-- <table ng-show="justEnteredForm"> -->
   <p ng-show="justEnteredForm">
     You have successfully submitted an entry. See My Reviews to view your entry.
+    <button type="button" ng-click="search()" name="button">Search glassdoor API</button>
   </p>
     <!-- <tr>  -->
       <!-- <th>Reviewer</th>
@@ -68,14 +69,12 @@
 <!-- </div> -->
 
 <div>
-  <table ng-show="salaryShow">
-    <tr ng-show="salaryShow">
-    <th>Reviewer</th>
-    <th>Company Name </th>
-    <th>Salary Rating</th>
-    <th>Leadership Rating</th>
-    <th>Review</th>
-  </tr>
+  <table ng-show="justEnteredForm">
+    <tr ng-show="justEnteredForm">
+  <p ng-repeat="record in allglassdoorJobs">
+    {{ record }}
+  </p>
+   </tr>
   <tr ng-show="salaryShow" ng-repeat = "record in salaryArray" >
     <th> {{ record.author }} in salary show </th>
     <th> {{ record.company_name }} </th>
