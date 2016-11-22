@@ -1,5 +1,5 @@
 myApp.controller('logInController', ['$scope', '$http', '$window',
-'$location', function($scope, $http, $window, $location) {
+'$location', '$rootScope', function($scope, $http, $window, $location, $rootScope) {
   console.log( 'login controller loaded');
     $scope.user = {
       username: '',
