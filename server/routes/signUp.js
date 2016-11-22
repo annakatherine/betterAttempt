@@ -7,7 +7,7 @@ var path = require('path');
 var encryptLib = require('../modules/encrypt');
 var connection = require('../modules/connection');
 var pg = require('pg');
-////I do not think this one is necessary////////
+
 var connectionString = 'postgres://localhost:5432/primerDB';
 
 console.log('signup.js is in');
@@ -23,17 +23,17 @@ console.log( 'after router.post in signup.js' );
     cohort: req.body.cohort
   };
   console.log('new user:', saveUser);
-
   pg.connect(connection, function(err, client, done) {
+    console.log( "client: " + client);
     client.query("INSERT INTO primers (username, password, zip, cohort) VALUES ($1, $2, $3, $4) RETURNING id",
       [saveUser.username, saveUser.password, saveUser.zip, saveUser.cohort],
         function (err, result) {
-          saveUser.id = result.rows[0].id;
-          console.log( 'saveUser.id: ', saveUser.id);
+          console.log('result: ' + result);
+          // saveUser.id = result.rows[0].id;
+          // console.log( 'saveUser.id: ', saveUser.id);
           //
           // res.send( saveUser );
            done();
-          ////HOW DO I SEND OUT THE USER ID FROM HERE SO I CAN STRAP IT TO THE REVIEW ????/////
           // client.end();
           if(err) {
             console.log("Error inserting data: ", err);
