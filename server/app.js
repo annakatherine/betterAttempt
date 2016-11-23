@@ -5,6 +5,7 @@ var path = require('path');
 //server connection
 var pg = require('pg');
 var connectionString = 'postgres://localhost:5432/primerDB';
+pg.defaults.ssl = true;
 
 //passport connection
 var passport = require('./strategy/user.js');
@@ -48,6 +49,16 @@ app.use('/', success);
 // app.get('/', function(req, res) {
 //   res.sendFile(path.join(__dirname, './public/views/login.html'));
 // })
+// pg.connect(process.env.DATABASE_URL, function(err, client) {
+//   if (err) throw err;
+//   console.log('Connected to postgres! Getting schemas...');
+//
+//   client
+//     .query('SELECT table_schema,table_name FROM information_schema.tables;')
+//     .on('row', function(row) {
+//       console.log(JSON.stringify(row));
+//     });
+// });
 
 app.set('port', process.env.PORT || 8080);
 app.listen(app.get('port'), function() {
