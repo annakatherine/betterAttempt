@@ -1,5 +1,5 @@
-myApp.controller('logInController', ['$scope', '$http', '$window',
-'$location', '$rootScope', function($scope, $http, $window, $location, $rootScope) {
+myApp.controller('bananaController', ['$scope', '$http', '$window',
+'$location', function($scope, $http, $window, $location) {
   console.log( 'login cont loaded');
     $scope.user = {
       username: '',
@@ -48,10 +48,3 @@ myApp.controller('logInController', ['$scope', '$http', '$window',
 
 
 }]);//end of login controller
-//
-// angular.module('app')
-// .controller('LoginCtrl', ['$scope', loginCtrlFunc]);
-//
-// function loginCtrlFunc($scope){
-//
-// }
