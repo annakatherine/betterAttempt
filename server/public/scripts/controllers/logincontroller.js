@@ -1,6 +1,6 @@
 myApp.controller('logInController', ['$scope', '$http', '$window',
 '$location', '$rootScope', function($scope, $http, $window, $location, $rootScope) {
-  console.log( 'login controller loaded');
+  console.log( 'login cont loaded');
     $scope.user = {
       username: '',
       password: '',
