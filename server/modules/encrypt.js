@@ -7,7 +7,6 @@ var publicAPI = {
     console.log( 'sal' );
     return bcrypt.hashSync(password, sal);
   },
-
   comparePassword: function( candidatePassword, storedPassword ){
     console.log( 'compare candidate and stored passwords in encrypt.js' );
     return bcrypt.compareSync(candidatePassword, storedPassword);

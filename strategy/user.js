@@ -10,13 +10,10 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('called deserializeUser');
   pg.connect(connection, function (err, client) {
     var user = {};
-    console.log('called deserializeUser - pg');
       var query = client.query("SELECT * FROM primers WHERE id = $1", [id]);
       query.on('row', function (row) {
-        console.log('User row', row);
         user = row;
         done(null, user);
       });
@@ -55,14 +52,11 @@ passport.use(new HerokuStrategy({
             console.log('nope');
             done(null, false, {message: 'Incorrect credentials.'});
           }
-
         });
-
         // After all data is returned, close connection and return results
         query.on('end', function () {
             client.end();
         });
-
         // Handle Errors
         if (err) {
             console.log(err);
@@ -70,5 +64,4 @@ passport.use(new HerokuStrategy({
 	    });
     }
 ));
-
 module.exports = passport;
