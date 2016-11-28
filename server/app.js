@@ -3,9 +3,20 @@ var app = express();
 var bodyParser = require('body-parser');
 var path = require('path');
 //server connection
+var fs = require('file-system');
+var https = require('https');
+// var options = {
+//    key  : fs.readFileSync('server.key'),
+//    cert : fs.readFileSync('server.crt')
+// };
 var pg = require('pg');
-var connectionString = 'postgres://localhost:5432/primerDB';
+var connectionString = 'postgres://pzycofpzsxekhq:U8BIrxQyWUoagknLPqmYgSs4_5@ec2-54-243-200-159.compute-1.amazonaws.com:5432/d5eo9mo48rhsrt';
 pg.defaults.ssl = true;
+
+
+// https.createServer(options, app).listen(3000, function () {
+//    console.log('Started!');
+// });
 
 //passport connection
 var passport = require('./strategy/user.js');
@@ -59,6 +70,30 @@ app.use('/', success);
 //       console.log(JSON.stringify(row));
 //     });
 // });
+
+
+// function setup (ssl) {
+//    if (ssl && ssl.active) {
+//       return {
+//          key  : fs.readFileSync(ssl.key),
+//          cert : fs.readFileSync(ssl.certificate)
+//       };
+//    }
+// }
+//
+// function start (app, options) {
+//    if (options)
+//       return require('https').createServer(options, app);
+//
+//    return require('http').createServer(app);
+// }
+//
+// module.exports = {
+//    create: function (settings, app, cb) {
+//       var options = setup(settings.ssl);
+//       return start(app, options).listen(settings.port, cb);
+//    }
+// };
 
 app.set('port', process.env.PORT || 8080);
 app.listen(app.get('port'), function() {
