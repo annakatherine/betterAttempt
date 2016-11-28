@@ -7,9 +7,11 @@ var pg = require('pg');
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
+    console.log( 'inside serializeUser');
 });
 
 passport.deserializeUser(function(id, done) {
+console.log( 'testing something new');
   pg.connect(connection, function (err, client) {
     var user = {};
       var query = client.query("SELECT * FROM primers WHERE id = $1", [id]);
@@ -38,9 +40,8 @@ passport.use(new HerokuStrategy({
 	    	console.log('called local - pg');
 	    	var user = {};
         var query = client.query("SELECT * FROM primers WHERE username = $1", [username]);
-
         query.on('row', function (row) {
-        	console.log('User obj', row);
+        	console.log('User obj inside the new HerokuStrategy', row);
         	user = row;
 
           // Hash and compare
