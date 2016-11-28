@@ -1,5 +1,4 @@
-var connectionString =     'postgres://pzycofpzsxekhq:U8BIrxQyWUoagknLPqmYgSs4_5@ec2-54-243-200-159.compute-1.amazonaws.com:5432/d5eo9mo48rhsrt';
-
+var connectionString = 'postgres://pzycofpzsxekhq:U8BIrxQyWUoagknLPqmYgSs4_5@ec2-54-243-200-159.compute-1.amazonaws.com:5432/d5eo9mo48rhsrt';
 
 if(process.env.DATABASE_URL !== undefined) {
     connectionString = process.env.DATABASE_URL + 'ssl';
@@ -8,6 +7,6 @@ if(process.env.DATABASE_URL !== undefined) {
     connectionString =
     'postgres://pzycofpzsxekhq:U8BIrxQyWUoagknLPqmYgSs4_5@ec2-54-243-200-159.compute-1.amazonaws.com:5432/d5eo9mo48rhsrt';
     // 'postgres://localhost:5432/primerDB';
+    console.log( connectionString );
 }
-
 module.exports = connectionString;

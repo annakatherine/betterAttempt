@@ -1,6 +1,6 @@
 
 var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
+// var localStrategy = require('passport-local').Strategy;
 var encryptLib = require('../modules/encryption');
 var connection = require('../modules/connection');
 var pg = require('pg');
@@ -10,25 +10,20 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-//TODO SQL query
   console.log('called deserializeUser');
   pg.connect(connection, function (err, client) {
-
     var user = {};
     console.log('called deserializeUser - pg');
       var query = client.query("SELECT * FROM primers WHERE id = $1", [id]);
-
       query.on('row', function (row) {
         console.log('User row', row);
         user = row;
         done(null, user);
       });
-
       // After all data is returned, close connection and return results
       query.on('end', function () {
           client.end();
       });
-
       // Handle Errors
       if (err) {
           console.log(err);
@@ -37,7 +32,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 // Does actual work of logging in
-passport.use('local', new localStrategy({
+passport.use(new HerokuStrategy({
+// passport.use('local', new localStrategy({
     passReqToCallback: true,
     usernameField: 'username'
     }, function(req, username, password, done){
