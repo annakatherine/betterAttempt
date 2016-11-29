@@ -10,7 +10,7 @@ console.log('inside login.js');
 // Handles login form POST from index.html
 
 router.post('/',
-    passport.authenticate('local', {
+    passport.authenticate('heroku', {
         successRedirect: '/router',
         failureRedirect: '/'
     })
