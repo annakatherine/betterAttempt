@@ -1,9 +1,9 @@
-
 var passport = require('passport');
 // var localStrategy = require('passport-local').Strategy;
 var encryptLib = require('../modules/encryption');
 var connection = require('../modules/connection');
 var pg = require('pg');
+var HerokuStrategy = require('passport-heroku').Strategy;
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -31,13 +31,16 @@ console.log( 'testing something new');
 });
 
 // Does actual work of logging in
-passport.use(new HerokuStrategy({
+passport.use('heroku', new HerokuStrategy({
 // passport.use('local', new localStrategy({
     passReqToCallback: true,
     usernameField: 'username'
-    }, function(req, username, password, done){
+},
+     function(req, username, password, done){
+       console.log( 'heroku: ' + heroku );
+
 	    pg.connect(connection, function (err, client) {
-	    	console.log('called local - pg');
+	    	// console.log('called local - pg');
 	    	var user = {};
         var query = client.query("SELECT * FROM primers WHERE username = $1", [username]);
         query.on('row', function (row) {
@@ -63,6 +66,8 @@ passport.use(new HerokuStrategy({
             console.log(err);
         }
 	    });
-    }
+
+    } //end function
+
 ));
 module.exports = passport;
