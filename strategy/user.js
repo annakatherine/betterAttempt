@@ -6,8 +6,9 @@ var pg = require('pg');
 var HerokuStrategy = require('passport-heroku').Strategy;
 
 passport.serializeUser(function(user, done) {
+  console.log( 'inside serializeUser');
+
     done(null, user.id);
-    console.log( 'inside serializeUser');
 });
 
 passport.deserializeUser(function(id, done) {
