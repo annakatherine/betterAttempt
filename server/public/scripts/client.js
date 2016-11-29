@@ -35,6 +35,6 @@ myApp.config(['$routeProvider', function($routeProvider) {
 			controller: "myReviewsController"
 		})
 		.otherwise({
-			redirectTo: 'login'
+			redirectTo: 'home'
 		});
 }]);
