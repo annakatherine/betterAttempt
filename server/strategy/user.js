@@ -14,11 +14,11 @@ passport.deserializeUser(function(id, done) {
   pg.connect(connection, function (err, client, complete) {
 
     var user = {};
-    console.log('deserialize this');
+    // console.log('deserialize this');
       var query = client.query("SELECT * FROM primers WHERE id = $1", [id]);
 
       query.on('row', function (row) {
-        console.log('User row', row);
+        console.log('User row inside user.js line 21', row);
         user = row;
         done(null, user);
       });

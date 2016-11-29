@@ -13,7 +13,7 @@ myApp.controller('bananaController', ['$scope', '$http', '$window',
         $scope.logIn = function() {
           console.log( 'login clicked' );
           if($scope.user.username === '' || $scope.user.password === '') {
-            $scope.message = "Enter your username and password!";
+            alert = "Enter your username and password!";
           } else {
             console.log('logging in... ', $scope.user);
             $http.post('/logIn', $scope.user).then(function(response) {

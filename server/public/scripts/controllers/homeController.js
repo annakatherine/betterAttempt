@@ -22,17 +22,16 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
 
 // -----------beginning of logIn logic------------------------//
     $scope.user_id= {};
-    getUser();
-
+    // getUser();
     function getUser() {
+      console.log( 'inside function getUser in homeController');
     $http.get('/router').then(function(response) {
           if(response.data.username) {
               $scope.userName = response.data.username;
               $scope.user_id = response.data._id;
-              console.log('User Data: ', $scope.userName);
+              // console.log('User Data: ', $scope.userName);
               $rootScope.username = $scope.userName;
               console.log('User Data: ', $rootScope.username);
-
 
           } else {
               $location.path("/login");
@@ -57,7 +56,6 @@ myApp.controller( 'homeController', ['$scope', '$http', '$location', '$rootScope
     $scope.topHalf=false;
     $scope.salaryShow=false;
     $scope.leadershipShow=false;
-
 
     //declare an empty array to hold review details for viewing
     var reviewObject = {

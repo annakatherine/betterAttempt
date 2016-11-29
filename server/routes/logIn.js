@@ -11,7 +11,7 @@ console.log('inside login.js');
 
 router.post('/',
     passport.authenticate('local', {
-        successRedirect: '/home',
+        successRedirect: '/router',
         failureRedirect: '/'
     })
   );
